@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*tsaweb_string(char *str, char c)
+char	*make_string(char *str, char c)
 {
 	int		i;
 	char	*p;
@@ -9,7 +9,7 @@ char	*tsaweb_string(char *str, char c)
 	if (str == NULL)
 	{
 		p = strdup("");
-		return (tsaweb_string(p, c));
+		return (make_string(p, c));
 	}
 	p = malloc(sizeof(str) * (strlen(str) + 2));
 	while (i < strlen(str))
@@ -37,8 +37,6 @@ t_type	*parser(char	*line)
 	i = 0;
 	while (line[i])
 	{
-     	// printf ("%d\n", i);
-
 		if (real_character(line, i, '\'')  && single == 0 && dblq == 0 )
 		{
 			ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
@@ -48,7 +46,7 @@ t_type	*parser(char	*line)
 		}
 		else if (real_character(line, i, '\'') && single == 1 && dblq == 0)
 		{
-			str = tsaweb_string(str, line[i]);
+			str = make_string(str, line[i]);
 			ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 1));
 			if (line[i + 1])
 				i++;
@@ -72,7 +70,7 @@ t_type	*parser(char	*line)
 		}
 		else if (real_character(line, i, '"') && single == 0 && dblq == 1)
 		{
-			str = tsaweb_string(str, line[i]);
+			str = make_string(str, line[i]);
 			ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 2));
 			if (line[i + 1])
 				i++;
@@ -87,10 +85,9 @@ t_type	*parser(char	*line)
 			dblq = 0;
 			str = NULL;
 		}
-		str = tsaweb_string(str, line[i]);	
+		str = make_string(str, line[i]);	
 		i++;
 	}
-	// ft_lstadd_back(&tmp, ft_lstnew_type())
 	if (str)
 		ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
 	return (tmp);
@@ -102,10 +99,9 @@ void	print_types(t_type *type)
 	tmp = type;
 	while (tmp)
 	{
-		printf("|word is %s| && |type is %d| \n", tmp->word, tmp->type);
+		printf("|word is %s| && |type is %d| \n | exp : %d\n", tmp->word, tmp->type, tmp->exp);
 		tmp = tmp->next;
 	}
-	
 }
 
 int		main(int argc, char **argv, char **env)
@@ -118,8 +114,10 @@ int		main(int argc, char **argv, char **env)
 		if (!(line = readline("ader$>")))
 	    	return (1);
 		tmp = parser(line);
+		check_words(tmp);
+		expander(tmp);
+		
 		print_types(tmp);
-		expander(line);
 
 	}
 	return (0);

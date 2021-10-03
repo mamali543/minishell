@@ -1,5 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -14,6 +15,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/time.h>
 # include "ft_libft/libft.h"
 # define FALSE 0
 # define TRUE 1
@@ -36,6 +38,7 @@ typedef	struct s_type
 {
 	char	*word;
 	int		type;
+	int		exp;
 	struct s_type *next;
 
 }				t_type;
@@ -51,9 +54,10 @@ typedef struct s_counter
 
 t_list	*init_env_list(char **evnp);
 void	printlist(t_list *env);
-char    *expander(char *line);
+char    *expander(t_type *tmp);
 int     real_character(char *line, int i, char c);
 t_type	*ft_lstnew_type(char *content, int i);
 void	ft_lstadd_back_type(t_type **alst, t_type *new);
+void    check_words(t_type *tmp);
 
 #endif
