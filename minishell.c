@@ -108,7 +108,7 @@ int		main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_type *tmp;
-	init_env_list(env);
+	printlist(init_env_list(env));
 	while (1)
 	{
 		if (!(line = readline("ader$>")))
@@ -116,7 +116,6 @@ int		main(int argc, char **argv, char **env)
 		tmp = parser(line);
 		check_words(tmp);
 		expander(tmp);
-		
 		print_types(tmp);
 
 	}

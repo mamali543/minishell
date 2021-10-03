@@ -76,12 +76,12 @@ char    *expander(t_type *tmp)
         tmp2 = tmp2->next;
     }
     tmp2 = tmp;
-    while (tmp2)
-    {
-        if (tmp2->type == 2 || tmp2->type == 0)
-        {
+    // while (tmp2)
+    // {
+    //     if (tmp2->type == 2 || tmp2->type == 0)
+    //     {
 
-        }
-    }
+    //     }
+    // }
     return (NULL);
 }
