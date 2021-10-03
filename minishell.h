@@ -32,11 +32,28 @@ typedef struct s_env
 	char			*content;
 }               t_env;
 
+typedef	struct s_type
+{
+	char	*word;
+	int		type;
+	struct s_type *next;
+
+}				t_type;
+
+typedef struct s_counter
+{
+	int		i;
+	int		j;
+	int		k;
+	int		a;
+}				t_counter;
+
+
 t_list	*init_env_list(char **evnp);
 void	printlist(t_list *env);
 char    *expander(char *line);
-int     real_character(char *line, int i);
-
-
+int     real_character(char *line, int i, char c);
+t_type	*ft_lstnew_type(char *content, int i);
+void	ft_lstadd_back_type(t_type **alst, t_type *new);
 
 #endif
