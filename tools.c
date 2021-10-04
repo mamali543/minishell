@@ -42,7 +42,7 @@ t_type	*ft_lstnew_type(char *content, int i)
 	t_type *new;
 
 	new = (t_type *)malloc(sizeof(t_type) * 1);
-	new->word = strdup(content);
+    new->word = strdup(content);
     new->type = i;
     new->exp = 0;
 	new->next = NULL;
@@ -90,6 +90,31 @@ int     real_character(char *line, int i, char c)
         }
         else
             return (1);
+    }
+    return (0);
+}
+
+int     real_character1(char *line, int i, char c)
+{
+    int cnt;
+    int ret;
+
+    cnt = 0;
+    ret = 0;
+
+    if (line[i] == c)
+    {
+        if (i == 0)
+            return (0);
+        i--;
+        if (line[i] ==  '\\')
+        {
+            while (line[i--] ==  '\\')
+                cnt++;
+            return (cnt);
+        }
+        else
+            return (0);
     }
     return (0);
 }

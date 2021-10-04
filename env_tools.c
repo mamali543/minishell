@@ -40,3 +40,17 @@ void	printlist(t_list *env)
 		lst = lst->next;
 	}
 }
+
+void	printlist_cl(t_list *env)
+{
+	t_list		*lst;
+	t_cl		*env_l;
+
+	lst = env;
+	while (lst)
+	{
+		env_l = lst->content;
+		printf("| %c |\n", env_l->c);
+		lst = lst->next;
+	}
+}

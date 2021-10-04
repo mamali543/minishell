@@ -43,6 +43,7 @@ typedef	struct s_type
 
 }				t_type;
 
+
 typedef struct s_counter
 {
 	int		i;
@@ -51,7 +52,12 @@ typedef struct s_counter
 	int		a;
 }				t_counter;
 
+typedef struct s_cl
+{
+	char c;
+}				t_cl;
 
+char 	*ll_to_string(t_list *head);
 t_list	*init_env_list(char **evnp);
 void	printlist(t_list *env);
 char    *expander(t_type *tmp);
@@ -59,5 +65,7 @@ int     real_character(char *line, int i, char c);
 t_type	*ft_lstnew_type(char *content, int i);
 void	ft_lstadd_back_type(t_type **alst, t_type *new);
 void    check_words(t_type *tmp);
+char	*make_string(char *str, char c);
+int     real_character1(char *line, int i, char c);
 
 #endif

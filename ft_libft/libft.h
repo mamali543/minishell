@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-fadi <ael-fadi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 19:17:44 by ael-fadi          #+#    #+#             */
-/*   Updated: 2021/04/28 14:57:15 by ael-fadi         ###   ########.fr       */
+/*   Updated: 2021/10/04 04:29:44 by macbookpro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), \
 				void (*del)(void *));
 int				ft_str_equale(char *s1, char *s2);
 void			ft_print_double_pointer(char **str);
+void			printlist_cl(t_list *env);
 
 #endif
