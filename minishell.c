@@ -22,15 +22,11 @@ char	*make_string(char *str, char c)
 	return (p);
 }
 
-t_type	*parser(char	*line)
+t_type	*parser(char	*line, int dblq, int single)
 {
 	t_type	*tmp;
-	int		single;
-	int		dblq;
 	int i;
 
-	single = 0;
-	dblq = 0;
 	tmp = NULL;
 	i = 0;
 	while (1)
@@ -75,9 +71,9 @@ int		main(int argc, char **argv, char **env)
 	{
 		if (!(line = readline("ader$>")))
 	    	return (1);
-		tmp = parser(line);
+		tmp = parser(line, 0, 0);
 		check_words(tmp);
-		// expander(tmp);
+		expander(tmp);
 		print_types(tmp);
 
 	}

@@ -158,14 +158,20 @@ char	*return_env_value(char *key)
 {
 	t_list	*env;
 	t_env	*tmp;
+	int		i;
 
 	env = g_data->env;
 	// printlist(g_data->env);
+	i = 0;
 	while (env)
 	{
 		tmp = (t_env *)env->content;
-		if (!ft_strcmp(tmp->name, key))
-			return (tmp->content);
+		i = ft_strlen(tmp->name);
+		if (i == ft_strlen(key))
+		{
+			if (ft_strcmp(tmp->name, key) == 0)
+				return (tmp->content);
+		}
 		env = env->next;
 	}
 	return (strdup(""));

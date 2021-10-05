@@ -15,7 +15,10 @@ int		add_sq(char *line, int *i, char c, t_type **head)
         (*i)++;
     }
     str = ll_to_string(list);
-	ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
+    if (c == '\'')
+	    ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
+    else
+        ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
     return (1);
 }
 
@@ -27,7 +30,6 @@ int		adds(char *line, int *i, char c, t_type **head)
     list = NULL;
     while (line[(*i)] != '\''  && line[(*i)])
     {
-        printf("cac = %c\n", line[(*i)]);
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = line[(*i)];
 		ft_lstadd_back(&list, ft_lstnew(tmp));
