@@ -39,7 +39,8 @@ t_type	*parser(char	*line)
 	{
 		if (real_character(line, i, '\'')  && single == 0 && dblq == 0 )
 		{
-			if (strcmp("", str) != 0)
+
+		    if (ft_strcmp("", str) != 0)
 				ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
 			single = 1;
 			free(str);
@@ -87,7 +88,7 @@ t_type	*parser(char	*line)
 			dblq = 0;
 			str = ft_strdup("");
 		}
-		str = make_string(str, line[i]);	
+		str = make_string(str, line[i]);
 		i++;
 	}
 	if (str)
@@ -110,7 +111,9 @@ int		main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_type *tmp;
-	printlist(init_env_list(env));
+	g_data = malloc(sizeof(t_data));
+	init_env_list(env);
+	// printlist(g_data->env);
 	while (1)
 	{
 		if (!(line = readline("ader$>")))
@@ -118,7 +121,7 @@ int		main(int argc, char **argv, char **env)
 		tmp = parser(line);
 		check_words(tmp);
 		expander(tmp);
-		// print_types(tmp);
+		print_types(tmp);
 
 	}
 	return (0);

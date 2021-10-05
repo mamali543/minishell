@@ -57,8 +57,15 @@ typedef struct s_cl
 	char c;
 }				t_cl;
 
+typedef struct s_data
+{
+	t_list 	*env;
+}				t_data;
+
+t_data	 *g_data;
+
 char 	*ll_to_string(t_list *head);
-t_list	*init_env_list(char **evnp);
+void	init_env_list(char **evnp);
 void	printlist(t_list *env);
 char    *expander(t_type *tmp);
 int     real_character(char *line, int i, char c);
@@ -67,5 +74,7 @@ void	ft_lstadd_back_type(t_type **alst, t_type *new);
 void    check_words(t_type *tmp);
 char	*make_string(char *str, char c);
 int     real_character1(char *line, int i, char c);
+char	*return_env_value(char *key);
+void	add_string(t_list **head, char *str);
 
 #endif

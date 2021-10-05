@@ -57,7 +57,6 @@ int    add_bs(t_list **head, int cnt)
 
 	tmp = malloc(sizeof(t_cl));
 	tmp->c = '\\';
-	printf("%d\n", cnt);
 	if (cnt % 2 == 1)
 	{
 		cnt = (cnt - 1) / 2;
@@ -66,10 +65,33 @@ int    add_bs(t_list **head, int cnt)
 		return (0);
 	}
 	cnt = cnt / 2;
-	printf("%d\n", cnt);
 	while (cnt--)
 		ft_lstadd_back(head, ft_lstnew(tmp));
 	return (1);
+}
+
+void		to_skip(char *s, int *a, t_list **head)
+{
+	t_cl	*tmp;
+	t_list	*list_keys;
+	int		i;
+	char	*key;
+
+	i = 0;
+	list_keys = NULL;
+	while (s[(*a)] != ' ' && s[(*a)])
+	{
+
+		tmp = malloc(sizeof(t_cl));
+		tmp->c = s[*a];
+        ft_lstadd_back(&list_keys, ft_lstnew(tmp));
+		(*a)++;
+		i++;
+	}
+	(*a)--;
+	key = ll_to_string(list_keys);
+	char *p = return_env_value(key + 1);
+	add_string( head, p);
 }
 
 char    *expand_word(char *str, int type)
@@ -92,10 +114,7 @@ char    *expand_word(char *str, int type)
         {
             cnt = real_character1(str, i, '$');
 			if (add_bs(&head, cnt))
-			{
-				
-			}
-			
+				to_skip(str , &i, &head);
         }
         else if (str[i] != '\\')
             ft_lstadd_back(&head, ft_lstnew(tmp));
@@ -114,8 +133,6 @@ char    *expander(t_type *tmp)
     char    *s;
 
     tmp2 = tmp;
-
-    
     while (tmp2)
     {
         i = 0;
@@ -137,3 +154,36 @@ char    *expander(t_type *tmp)
     return (NULL);
 }
 
+char	*return_env_value(char *key)
+{
+	t_list	*env;
+	t_env	*tmp;
+
+	env = g_data->env;
+	// printlist(g_data->env);
+	while (env)
+	{
+		tmp = (t_env *)env->content;
+		if (!ft_strcmp(tmp->name, key))
+			return (tmp->content);
+		env = env->next;
+	}
+	return (strdup(""));
+}
+
+void	add_string(t_list **head, char *str)
+{
+	t_cl	*tmp;
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		tmp = malloc(sizeof(t_cl));
+		tmp->c = str[i];
+		// printf("%c\n", tmp->c);
+		ft_lstadd_back(head, ft_lstnew(tmp));
+		i++;
+	}
+	// printlist_cl(*head);
+}

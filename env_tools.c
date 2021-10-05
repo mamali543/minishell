@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list	*init_env_list(char **envp)
+void	init_env_list(char **envp)
 {
 	int		i;
 	char	**s;
@@ -24,7 +24,7 @@ t_list	*init_env_list(char **envp)
 		free(s);
 		i++;
 	}
-    return(env);
+	g_data->env = env;
 }
 
 void	printlist(t_list *env)
