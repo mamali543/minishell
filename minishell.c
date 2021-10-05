@@ -27,72 +27,29 @@ t_type	*parser(char	*line)
 	t_type	*tmp;
 	int		single;
 	int		dblq;
-	char	*str;
+	int i;
 
 	single = 0;
 	dblq = 0;
 	tmp = NULL;
-	str = ft_strdup("");
-	int i;
 	i = 0;
-	while (line[i])
+	while (1)
 	{
 		if (real_character(line, i, '\'')  && single == 0 && dblq == 0 )
-		{
-
-		    if (ft_strcmp("", str) != 0)
-				ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
-			single = 1;
-			free(str);
-			str = ft_strdup("");
-		}
+			single = add_sq(line, &i, '\'', &tmp);
 		else if (real_character(line, i, '\'') && single == 1 && dblq == 0)
-		{
-			str = make_string(str, line[i]);
-			ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 1));
-			if (line[i + 1])
-				i++;
-			else
-			{	
-				single = 0;
-				free(str);
-				str = ft_strdup("");
-				break;
-			}
-			free(str);
 			single = 0;
-			str = ft_strdup("");
-		}
 		else if (real_character(line, i, '"') && single == 0 && dblq == 0)
-		{
-			if (strcmp("", str) != 0)
-				ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
-			dblq = 1;
-			free(str);
-			str = ft_strdup("");
-		}
+			dblq = add_sq(line, &i, '"', &tmp);
+
 		else if (real_character(line, i, '"') && single == 0 && dblq == 1)
-		{
-			str = make_string(str, line[i]);
-			ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 2));
-			if (line[i + 1])
-				i++;
-			else
-			{	
-				dblq = 0;
-				free(str);
-				str = ft_strdup("");
-				break;
-			}
-			free(str);
 			dblq = 0;
-			str = ft_strdup("");
-		}
-		str = make_string(str, line[i]);
+		else
+			 adds(line, &i, 'o', &tmp);
+		if (i >= ft_strlen(line) - 1)
+			break;
 		i++;
 	}
-	if (str)
-		ft_lstadd_back_type(&tmp,ft_lstnew_type(str, 0));
 	return (tmp);
 }
 
@@ -120,7 +77,7 @@ int		main(int argc, char **argv, char **env)
 	    	return (1);
 		tmp = parser(line);
 		check_words(tmp);
-		expander(tmp);
+		// expander(tmp);
 		print_types(tmp);
 
 	}

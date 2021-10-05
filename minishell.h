@@ -76,5 +76,7 @@ char	*make_string(char *str, char c);
 int     real_character1(char *line, int i, char c);
 char	*return_env_value(char *key);
 void	add_string(t_list **head, char *str);
+int		add_sq(char *line, int *i, char c, t_type **head);
+int		adds(char *line, int *i, char c, t_type **head);
 
 #endif
