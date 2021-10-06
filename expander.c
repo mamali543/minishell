@@ -79,8 +79,8 @@ void		to_skip(char *s, int *a, t_list **head)
 
 	i = 0;
 	list_keys = NULL;
-
-	while ((s[(*a)] != ' ' && s[(*a)] != '\'')  && s[(*a)])
+	(*a)++;
+	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ')) && s[(*a)])
 	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = s[*a];
@@ -88,7 +88,8 @@ void		to_skip(char *s, int *a, t_list **head)
 		(*a)++;
 	}
 	key = ll_to_string(list_keys);
-	char *p = return_env_value(key + 1);
+	printf("key is = %s\n", key);
+	char *p = return_env_value(key);
 	add_string(head, p);
 	(*a)--;
 }
@@ -97,12 +98,13 @@ char    *expand_word(char *str, t_list **head)
 {
     char    *p;
     int     i;
-	int		*j;
+	int		j;
     int     cnt;
 	t_cl	*tmp;
 
     
     i = 0;
+	j = 0;
     while (1)
     {
 		tmp = malloc(sizeof(t_cl));
@@ -116,10 +118,18 @@ char    *expand_word(char *str, t_list **head)
 			if (add_bs(head, cnt))
 				to_skip(str , &i, head);
 		}
-        else if (str[i] != '\\')
+        else if (str[i] == ' ')
+		{
+			ft_lstadd_back(head, ft_lstnew(tmp));
+			while (str[i] == ' ')
+				i++;
+			i--;
+		}
+		else
 			ft_lstadd_back(head, ft_lstnew(tmp));
 		if (i >= ft_strlen(str) - 1)
 			break;
+		j = 0;
 		i++;
     }
 	// printlist_cl(*head);
