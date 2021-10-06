@@ -38,7 +38,6 @@ typedef	struct s_type
 {
 	char	*word;
 	int		type;
-	int		exp;
 	struct s_type *next;
 
 }				t_type;
@@ -78,5 +77,6 @@ char	*return_env_value(char *key);
 void	add_string(t_list **head, char *str);
 int		add_sq(char *line, int *i, char c, t_type **head);
 int		adds(char *line, int *i, char c, t_type **head);
+int    check_if_sq(char *str, int *j);
 
 #endif

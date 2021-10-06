@@ -31,14 +31,13 @@ t_type	*parser(char	*line, int dblq, int single)
 	i = 0;
 	while (1)
 	{
-		if (real_character(line, i, '\'')  && single == 0 && dblq == 0 )
+		if (line[i] == '\'' && single == 0 && dblq == 0 )
 			single = add_sq(line, &i, '\'', &tmp);
-		else if (real_character(line, i, '\'') && single == 1 && dblq == 0)
+		else if (line[i] == '\''  && single == 1 && dblq == 0)
 			single = 0;
-		else if (real_character(line, i, '"') && single == 0 && dblq == 0)
+		else if (line[i] == '"' && single == 0 && dblq == 0)
 			dblq = add_sq(line, &i, '"', &tmp);
-
-		else if (real_character(line, i, '"') && single == 0 && dblq == 1)
+		else if (line[i] == '"' && single == 0 && dblq == 1)
 			dblq = 0;
 		else
 			 adds(line, &i, 'o', &tmp);
@@ -55,7 +54,7 @@ void	print_types(t_type *type)
 	tmp = type;
 	while (tmp)
 	{
-		printf("|word is %s| && |type is %d| \n | exp : %d\n", tmp->word, tmp->type, tmp->exp);
+		printf("|word is %s| && |type is %d| \n", tmp->word, tmp->type);
 		tmp = tmp->next;
 	}
 }

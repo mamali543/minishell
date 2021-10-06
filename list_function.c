@@ -19,3 +19,4 @@ char *ll_to_string(t_list *head)
     str[len] = '\0';
     return (str);
 }
+

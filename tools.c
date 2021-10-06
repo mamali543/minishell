@@ -44,7 +44,6 @@ t_type	*ft_lstnew_type(char *content, int i)
 	new = (t_type *)malloc(sizeof(t_type) * 1);
     new->word = strdup(content);
     new->type = i;
-    new->exp = 0;
 	new->next = NULL;
 	return (new);
 }

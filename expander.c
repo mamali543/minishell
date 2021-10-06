@@ -79,49 +79,51 @@ void		to_skip(char *s, int *a, t_list **head)
 
 	i = 0;
 	list_keys = NULL;
-	while (s[(*a)] != ' ' && s[(*a)])
-	{
 
+	while ((s[(*a)] != ' ' && s[(*a)] != '\'')  && s[(*a)])
+	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = s[*a];
         ft_lstadd_back(&list_keys, ft_lstnew(tmp));
 		(*a)++;
-		i++;
 	}
-	(*a)--;
 	key = ll_to_string(list_keys);
 	char *p = return_env_value(key + 1);
-	add_string( head, p);
+	add_string(head, p);
+	(*a)--;
 }
 
-char    *expand_word(char *str, int type)
+char    *expand_word(char *str, t_list **head)
 {
     char    *p;
     int     i;
+	int		*j;
     int     cnt;
-    t_list  *head;
 	t_cl	*tmp;
 
     
     i = 0;
-	head = NULL;
-    while (str[i])
+    while (1)
     {
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = str[i];
         cnt = 0;
+		// if (str[i] == '\'')
+		// 	sq_in_dq(str, i, head, &tmp);
         if (str[i] ==  '$')
         {
-            cnt = real_character1(str, i, '$');
-			if (add_bs(&head, cnt))
-				to_skip(str , &i, &head);
-        }
+			cnt = real_character1(str, i, '$');
+			if (add_bs(head, cnt))
+				to_skip(str , &i, head);
+		}
         else if (str[i] != '\\')
-            ft_lstadd_back(&head, ft_lstnew(tmp));
-        i++;
+			ft_lstadd_back(head, ft_lstnew(tmp));
+		if (i >= ft_strlen(str) - 1)
+			break;
+		i++;
     }
-	// printlist_cl(head);
-	p = ll_to_string(head);
+	// printlist_cl(*head);
+	p = ll_to_string(*head);
 	//to do
     return (p);
 }
@@ -129,28 +131,28 @@ char    *expand_word(char *str, int type)
 char    *expander(t_type *tmp)
 {
     t_type  *tmp2;
+	t_list	*head;
+
     int     i;
     char    *s;
 
     tmp2 = tmp;
+	head = NULL;
     while (tmp2)
     {
         i = 0;
         if (tmp2->type == 2 || tmp2->type == 0)
         {
-           s = expand_word(tmp2->word, tmp2->type);
-            printf("%s\n", s);
+           s = expand_word(tmp2->word, &head);
         }
+        else
+		{
+			add_string(&head, tmp2->word);
+		}
+			
         tmp2 = tmp2->next;
     }
-    tmp2 = tmp;
-    // while (tmp2)
-    // {
-    //     if (tmp2->type == 2 || tmp2->type == 0)
-    //     {
-
-    //     }
-    // }
+	printf("line afther expand is : %s\n", ll_to_string(head));
     return (NULL);
 }
 
