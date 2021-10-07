@@ -94,31 +94,26 @@ void		to_skip(char *s, int *a, t_list **head)
 	(*a)--;
 }
 
-char    *expand_word(char *str, t_list **head)
+char    *expand_word(char *str, t_list **head, int a)
 {
     char    *p;
     int     i;
-	int		j;
     int     cnt;
 	t_cl	*tmp;
 
-    
     i = 0;
-	j = 0;
     while (1)
     {
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = str[i];
         cnt = 0;
-		// if (str[i] == '\'')
-		// 	sq_in_dq(str, i, head, &tmp);
         if (str[i] ==  '$')
         {
 			cnt = real_character1(str, i, '$');
 			if (add_bs(head, cnt))
 				to_skip(str , &i, head);
 		}
-        else if (str[i] == ' ')
+        else if (str[i] == ' ' && a == 0)
 		{
 			ft_lstadd_back(head, ft_lstnew(tmp));
 			while (str[i] == ' ')
@@ -129,7 +124,6 @@ char    *expand_word(char *str, t_list **head)
 			ft_lstadd_back(head, ft_lstnew(tmp));
 		if (i >= ft_strlen(str) - 1)
 			break;
-		j = 0;
 		i++;
     }
 	// printlist_cl(*head);
@@ -153,7 +147,7 @@ char    *expander(t_type *tmp)
         i = 0;
         if (tmp2->type == 2 || tmp2->type == 0)
         {
-           s = expand_word(tmp2->word, &head);
+           s = expand_word(tmp2->word, &head, tmp2->type);
         }
         else
 		{
@@ -162,7 +156,7 @@ char    *expander(t_type *tmp)
 			
         tmp2 = tmp2->next;
     }
-	printf("line afther expand is : %s\n", ll_to_string(head));
+	printf("line is : %s\n", ll_to_string(head));
     return (NULL);
 }
 

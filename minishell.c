@@ -71,10 +71,10 @@ int		main(int argc, char **argv, char **env)
 		if (!(line = readline("ader$>")))
 	    	return (1);
 		tmp = parser(line, 0, 0);
+		add_history(line);
+		print_types(tmp);
 		check_words(tmp);
 		expander(tmp);
-		print_types(tmp);
-
 	}
 	return (0);
 }
