@@ -23,13 +23,13 @@ int		add_sq(char *line, int *i, char c, t_type **head)
     return (1);
 }
 
-int		adds(char *line, int *i, char c, t_type **head)
+int		adds(char *line, int *i, t_type **head)
 {
 	t_cl	*tmp;
     t_list  *list;
     char *str;
     list = NULL;
-    while ((line[(*i)] != '\'' && line[(*i)] != '"') && line[(*i)])
+    while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|') && line[(*i)])
     {
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = line[(*i)];

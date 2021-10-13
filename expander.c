@@ -132,32 +132,41 @@ char    *expand_word(char *str, t_list **head, int a)
     return (p);
 }
 
-char    *expander(t_type *tmp)
+t_list	*expander(t_type *tmp)
 {
     t_type  *tmp2;
 	t_list	*head;
-
-    int     i;
-    char    *s;
+	t_list	*list;
+	t_cmd	*cmd;
 
     tmp2 = tmp;
 	head = NULL;
+	list = NULL;
+	cmd = NULL;
     while (tmp2)
     {
-        i = 0;
         if (tmp2->type == 2 || tmp2->type == 0)
-        {
-           s = expand_word(tmp2->word, &head, tmp2->type);
-        }
-        else
+           expand_word(tmp2->word, &head, tmp2->type);
+        else if (tmp2->type == 3)
 		{
-			add_string(&head, tmp2->word);
+			cmd = malloc(sizeof(t_cmd));
+			cmd->line = ll_to_string(head);
+			ft_lstadd_back(&list, ft_lstnew(cmd));
+			head = NULL;
 		}
-			
+		else
+			add_string(&head, tmp2->word);
         tmp2 = tmp2->next;
     }
-	printf("line is : %s\n", ll_to_string(head));
-    return (NULL);
+	if (head)
+	{
+		cmd = malloc(sizeof(t_cmd));
+		cmd->line = ll_to_string(head);
+		ft_lstadd_back(&list, ft_lstnew(cmd));
+		head = NULL;
+	}
+	// printf("line is : %s\n", ll_to_string(head));
+    return (list);
 }
 
 char	*return_env_value(char *key)

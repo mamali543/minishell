@@ -39,7 +39,6 @@ typedef	struct s_type
 	char	*word;
 	int		type;
 	struct s_type *next;
-
 }				t_type;
 
 
@@ -56,17 +55,26 @@ typedef struct s_cl
 	char c;
 }				t_cl;
 
+typedef	struct s_cmd
+{
+	char	*cmd;
+	char	*line;
+	char	**args;
+	int		in;
+	int		out;
+}				t_cmd;
+
 typedef struct s_data
 {
 	t_list 	*env;
 }				t_data;
 
-t_data	 *g_data;
+t_data		*g_data;
 
 char 	*ll_to_string(t_list *head);
 void	init_env_list(char **evnp);
 void	printlist(t_list *env);
-char    *expander(t_type *tmp);
+t_list	*expander(t_type *tmp);
 int     real_character(char *line, int i, char c);
 t_type	*ft_lstnew_type(char *content, int i);
 void	ft_lstadd_back_type(t_type **alst, t_type *new);
@@ -76,7 +84,7 @@ int     real_character1(char *line, int i, char c);
 char	*return_env_value(char *key);
 void	add_string(t_list **head, char *str);
 int		add_sq(char *line, int *i, char c, t_type **head);
-int		adds(char *line, int *i, char c, t_type **head);
-int    check_if_sq(char *str, int *j);
+int		adds(char *line, int *i, t_type **head);
+int    	check_if_sq(char *str, int *j);
 
 #endif

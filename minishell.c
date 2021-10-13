@@ -39,8 +39,13 @@ t_type	*parser(char	*line, int dblq, int single)
 			dblq = add_sq(line, &i, '"', &tmp);
 		else if (line[i] == '"' && single == 0 && dblq == 1)
 			dblq = 0;
+		else if (line[i] == '|' && single == 0 && dblq == 0)
+		{
+			printf("shihaja\n");
+			ft_lstadd_back_type(&tmp,ft_lstnew_type("|", 3));
+		}
 		else
-			 adds(line, &i, 'o', &tmp);
+			 adds(line, &i, &tmp);
 		if (i >= ft_strlen(line) - 1)
 			break;
 		i++;
@@ -59,10 +64,25 @@ void	print_types(t_type *type)
 	}
 }
 
+void	print_cmdlist(t_list *listcmd)
+{
+	t_cmd *cmd;
+	t_list *tmp;
+
+	tmp = listcmd;
+	while (tmp)
+	{
+		cmd = tmp->content;
+		printf("|cmd is : %s|\n", cmd->line);
+		tmp = tmp->next;
+	}
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	char	*line;
 	t_type *tmp;
+	t_list	*cmd_list;
 	g_data = malloc(sizeof(t_data));
 	init_env_list(env);
 	// printlist(g_data->env);
@@ -70,11 +90,12 @@ int		main(int argc, char **argv, char **env)
 	{
 		if (!(line = readline("ader$>")))
 	    	return (1);
+		
 		tmp = parser(line, 0, 0);
 		add_history(line);
-		print_types(tmp);
 		check_words(tmp);
-		expander(tmp);
+		cmd_list = expander(tmp);@
+		print_cmdlist(cmd_list);
 	}
 	return (0);
 }
