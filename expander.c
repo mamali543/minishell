@@ -131,44 +131,60 @@ char    *expand_word(char *str, t_list **head, int a)
 	//to do
     return (p);
 }
-
-t_list	*expander(t_type *tmp)
+t_type	*ft_lstnew_type2(char *content, int i)
 {
-    t_type  *tmp2;
-	t_list	*head;
-	t_list	*list;
-	t_cmd	*cmd;
+	t_type *new;
 
-    tmp2 = tmp;
-	head = NULL;
-	list = NULL;
-	cmd = NULL;
-    while (tmp2)
-    {
-        if (tmp2->type == 2 || tmp2->type == 0)
-           expand_word(tmp2->word, &head, tmp2->type);
-        else if (tmp2->type == 3)
-		{
-			cmd = malloc(sizeof(t_cmd));
-			cmd->line = ll_to_string(head);
-			ft_lstadd_back(&list, ft_lstnew(cmd));
-			head = NULL;
-		}
-		else
-			add_string(&head, tmp2->word);
-        tmp2 = tmp2->next;
-    }
-	if (head)
-	{
-		cmd = malloc(sizeof(t_cmd));
-		cmd->line = ll_to_string(head);
-		ft_lstadd_back(&list, ft_lstnew(cmd));
-		head = NULL;
-	}
-	// printf("line is : %s\n", ll_to_string(head));
-    return (list);
+	new = (t_type *)malloc(sizeof(t_type) * 1);
+    new->word = content;
+    new->type = i;
+	new->next = NULL;
+	return (new);
 }
 
+
+t_type	*expander(t_type *tmp)
+{
+    t_type  *tmp2;
+    t_type  *new;
+	t_list	*head;
+	char	*str;
+
+
+    tmp2 = tmp;
+	new = NULL;
+    while (tmp2)
+    {
+		head = NULL;
+        if (tmp2->type == 2 || tmp2->type == 0)
+           expand_word(tmp2->word, &head, tmp2->type);
+		else
+			add_string(&head, tmp2->word);
+		// free(tmp2->word);
+		str = ll_to_string(head);
+		if (tmp2->type == 0)
+			add_tab_to_ll(&new, str, tmp2->type);
+		else
+ 			ft_lstadd_back_type(&new, ft_lstnew_type2(str, tmp2->type));
+	
+        tmp2 = tmp2->next;
+    }
+    return (new);
+}
+
+void	add_tab_to_ll(t_type **head, char *str, int type)
+{
+	char **tab;
+	int	i;
+
+	i = 0;
+	tab = ft_split(str, ' ');
+	while (tab[i])
+	{
+		ft_lstadd_back_type(head, ft_lstnew_type2(tab[i], type));
+		i++;
+	}
+}
 char	*return_env_value(char *key)
 {
 	t_list	*env;
@@ -207,4 +223,18 @@ void	add_string(t_list **head, char *str)
 		i++;
 	}
 	// printlist_cl(*head);
+}
+
+void	free_nodes_types(t_type	**tmp)
+{
+	t_type	*tmp2;
+	tmp2 = *tmp;
+	while (*tmp)
+	{
+		tmp2 = *tmp;
+		if (tmp2->word != NULL)
+			free(tmp2->word);
+		free(tmp2);
+		*tmp = (*tmp)->next;
+	}
 }
