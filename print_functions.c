@@ -6,7 +6,7 @@
 /*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:13:55 by mamali            #+#    #+#             */
-/*   Updated: 2021/10/15 16:14:12 by mamali           ###   ########.fr       */
+/*   Updated: 2021/10/15 20:56:17 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	print_types(t_type *type)
 {
 	t_type *tmp;
 	tmp = type;
+
 	while (tmp)
 	{
 		printf("|word is %s| && |type is %d| \n", tmp->word, tmp->type);

@@ -6,7 +6,6 @@ void	expand_cmdlist(void)
 	t_cmd *cmd;
 	t_type *type_copy;
 
-
 	tmp = g_data->tokkens;
 	while (tmp)
 	{
@@ -18,6 +17,7 @@ void	expand_cmdlist(void)
 		cmd->out = 0;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
+		printf("--------------------\n");
 	}
 }
 
@@ -43,6 +43,8 @@ char	*make_string(char *str, char c)
 	return (p);
 }
 
+//parser: i take the line i fill words depends on their types in a t_type list, whenever i find a pipe i add the t_type list in a t_list tokkens and i free the t_type list.
+
 t_type	*parser(char	*line, int dblq, int single)
 {
 	t_type	*tmp;
@@ -62,13 +64,15 @@ t_type	*parser(char	*line, int dblq, int single)
 			dblq = 0;
 		else if (line[i] == '|' && single == 0 && dblq == 0)
 		{
+			/* i add the  tmp list to the t_list tokkens and i start fill tmp 
+			with the new words after  pipe for the next node of t_list tokkens*/
 			ft_lstadd_back(&g_data->tokkens, ft_lstnew(tmp));
 			tmp = NULL;
 		}
 		else if (line[i] == '>' && single == 0 && dblq == 0)
 			ft_lstadd_back_type(&tmp,ft_lstnew_type(">", 4));
 		else
-			 adds(line, &i, &tmp);
+			adds(line, &i, &tmp);
 		if (i >= ft_strlen(line) - 1)
 			break;
 		i++;
@@ -95,7 +99,7 @@ int		main(int argc, char **argv, char **env)
 	    	return (1);
 		parser(line, 0, 0);
 		expand_cmdlist();
-		print_cmd();
+		// print_cmd();
 		//  print_tokkens();
 		add_history(line);
 		// check_words(tmp);
@@ -103,3 +107,7 @@ int		main(int argc, char **argv, char **env)
 	return (0);
 }
 
+char	**function(t_type		*types)
+{
+	char	
+}

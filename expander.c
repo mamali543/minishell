@@ -70,7 +70,7 @@ int    add_bs(t_list **head, int cnt)
 	return (1);
 }
 
-void		to_skip(char *s, int *a, t_list **head)
+void		to_skip(char *s, int *a, t_list **head, int f)
 {
 	t_cl	*tmp;
 	t_list	*list_keys;
@@ -80,7 +80,7 @@ void		to_skip(char *s, int *a, t_list **head)
 	i = 0;
 	list_keys = NULL;
 	(*a)++;
-	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ')) && s[(*a)])
+	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ') && (s[(*a)] != '"')) && s[(*a)])
 	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = s[*a];
@@ -88,7 +88,6 @@ void		to_skip(char *s, int *a, t_list **head)
 		(*a)++;
 	}
 	key = ll_to_string(list_keys);
-	printf("key is = %s\n", key);
 	char *p = return_env_value(key);
 	add_string(head, p);
 	(*a)--;
@@ -111,7 +110,7 @@ char    *expand_word(char *str, t_list **head, int a)
         {
 			cnt = real_character1(str, i, '$');
 			if (add_bs(head, cnt))
-				to_skip(str , &i, head);
+				to_skip(str , &i, head, a);
 		}
         else if (str[i] == ' ' && a == 0)
 		{
@@ -131,6 +130,7 @@ char    *expand_word(char *str, t_list **head, int a)
 	//to do
     return (p);
 }
+
 t_type	*ft_lstnew_type2(char *content, int i)
 {
 	t_type *new;
@@ -141,7 +141,6 @@ t_type	*ft_lstnew_type2(char *content, int i)
 	new->next = NULL;
 	return (new);
 }
-
 
 t_type	*expander(t_type *tmp)
 {
@@ -157,10 +156,12 @@ t_type	*expander(t_type *tmp)
     {
 		head = NULL;
         if (tmp2->type == 2 || tmp2->type == 0)
+		{
+			printf("%s\n", tmp2->word);
            expand_word(tmp2->word, &head, tmp2->type);
+		}
 		else
 			add_string(&head, tmp2->word);
-		// free(tmp2->word);
 		str = ll_to_string(head);
 		if (tmp2->type == 0)
 			add_tab_to_ll(&new, str, tmp2->type);

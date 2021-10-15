@@ -59,6 +59,7 @@ typedef	struct s_cmd
 {
 	char	*cmd;
 	char	**args;
+	t_list	*args_list;
 	int		in;
 	int		out;
 }				t_cmd;
@@ -99,5 +100,6 @@ void	print_types(t_type *type);
 void	free_nodes_types(t_type	**tmp);
 void	add_tab_to_ll(t_type **head, char *str, int type);
 void	print_cmd(void);
+void	print_tokkens(void);
 
 #endif

@@ -6,9 +6,8 @@ int		add_sq(char *line, int *i, char c, t_type **head)
     t_list  *list;
     char *str;
     list = NULL;
-    help_q(&list, c);  
+    // help_q(&list, c); 
     (*i)++;
-    // printf("c=%c\n", line[(*i)]);
     while (line[(*i)] != c && line[(*i)])
     {
 		tmp = malloc(sizeof(t_cl));
@@ -17,9 +16,8 @@ int		add_sq(char *line, int *i, char c, t_type **head)
         (*i)++;
     }
     (*i)--;
-    help_q(&list, c);  
+    // help_q(&list, c);
     str = ll_to_string(list);
-    // printf("%s\n", str);
     if (c == '\'')
 	    ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
     else
