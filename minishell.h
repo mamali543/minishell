@@ -98,5 +98,6 @@ t_type	*parser(char	*line, int dblq, int single);
 void	print_types(t_type *type);
 void	free_nodes_types(t_type	**tmp);
 void	add_tab_to_ll(t_type **head, char *str, int type);
+void	print_cmd(void);
 
 #endif
