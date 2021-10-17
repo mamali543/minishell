@@ -4,7 +4,7 @@ LIBDIR = ft_libft
 
 LIB = ft_libft/*.c
 
-MINIFILES = minishell.c env_tools.c expander.c tools.c list_function.c parser_tools.c red_tools.c print_functions.c
+MINIFILES = minishell.c env_tools.c expander.c tools.c list_function.c parser_tools.c red_tools.c print_functions.c echo.c
 
 FLAGS = #-g -Wall -Wextra -Werror
 

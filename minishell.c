@@ -1,5 +1,33 @@
 #include "minishell.h"
 
+void	get_args(t_list **args ,t_type	*types)
+{
+	t_type	*tmp;
+	t_type	*prev;
+	
+	tmp = types;
+	
+
+
+	while (tmp)
+	{
+		prev = tmp->prev;
+
+
+		if (tmp->type != 4)
+		{
+			if (tmp->prev != NULL)
+			{
+				if (tmp->prev->type != 4)
+					ft_lstadd_back(args, ft_lstnew(tmp->word));
+			}
+			else
+				ft_lstadd_back(args, ft_lstnew(tmp->word));
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	expand_cmdlist(void)
 {
 	t_list *tmp; // copy of t_list tokkens
@@ -14,13 +42,16 @@ void	expand_cmdlist(void)
 		print_types(expanded_types);
 		cmd = malloc(sizeof(t_cmd));
 		cmd->cmd = expanded_types->word;
-		cmd->args_list = (t_list *)ft_lstadd_back(&tmp2, ft_lstnew(expanded_types->word));
+		cmd->args_list = NULL;
+		get_args(&(cmd->args_list), expanded_types);
 		cmd->in = 1;
 		cmd->out = 0;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
 		printf("--------------------\n");
 	}
+
+	
 }
 
 char	*make_string(char *str, char c)
@@ -90,6 +121,25 @@ t_type	*parser(char	*line, int dblq, int single)
 	return (tmp);
 }
 
+char	**ll_to_dp(t_list *list)
+{
+	int		len;
+	int		i;
+	char	**str;
+
+	len =  ft_lstsize(list);
+	str = malloc(sizeof(char *)  * (len + 1));
+	i = 0;
+	while (list)
+	{
+		str[i] = ft_strdup(list->content);
+		i++;
+		list = list->next;
+	}
+	str[i] = 0;
+	return (str);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	char	*line;
@@ -104,10 +154,14 @@ int		main(int argc, char **argv, char **env)
 	    	return (1);
 		parser(line, 0, 0);
 		expand_cmdlist();
-		print_cmd();
+		// print_cmd();
+		excute_cmd();
 		//  print_tokkens();
 		add_history(line);
 		// check_words(tmp);
 	}
 	return (0);
 }
+
+// convert linked list to char **
+

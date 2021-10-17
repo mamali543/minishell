@@ -49,10 +49,36 @@ void	print_cmd(void)
 	{
 		tmp2 = tmp->content;
 		printf("cmd is : %s\n", tmp2->cmd);
-		printf("args is : []\n");
+		printf("------------------------------------\n");
+
+		t_list	*tmp3 = tmp2->args_list;
+		while (tmp3)
+		{
+			printf("|%s|" , (char *)tmp3->content);
+			tmp3 = tmp3->next;
+		}
+
+		printf("\n------------------------------------\n");
+
 		printf("in is : %d\n", tmp2->in);
 		printf("out is : %d\n", tmp2->out);
 		printf("*****************************\n");
+		tmp = tmp->next;
+	}
+}
+
+void	excute_cmd(void)
+{
+	t_list *tmp;
+	t_cmd *tmp2;
+
+	tmp = g_data->cmd_list;
+	while (tmp)
+	{
+		tmp2 = tmp->content;
+
+		if (!strcmp(tmp2->cmd, "echo"))
+			builtin_echo(ll_to_dp(tmp2->args_list), NULL);
 		tmp = tmp->next;
 	}
 }

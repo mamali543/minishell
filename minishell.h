@@ -51,7 +51,6 @@ typedef struct s_cl
 typedef	struct s_cmd
 {
 	char	*cmd;
-	char	**args;
 	t_list	*args_list;
 	int		in;
 	int		out;
@@ -62,6 +61,8 @@ typedef	struct s_type
 	char	*word;
 	int		type;
 	struct s_type *next;
+	struct s_type *prev;
+
 }				t_type;
 
 typedef struct s_data
@@ -73,6 +74,12 @@ typedef struct s_data
 }				t_data;
 
 t_data		*g_data;
+
+int	builtin_echo(char **args, char **env);
+void	excute_cmd(void);
+
+//
+char	**ll_to_dp(t_list *list);
 
 void	expand_cmdlist(void);
 void    create_file(char *s, int type, t_cmd *cmd);
