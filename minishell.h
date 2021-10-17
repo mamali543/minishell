@@ -28,20 +28,6 @@
 # define ENTER 10
 # define KEY_REMOVE 127
 
-typedef struct s_env
-{
-	char			*name;
-	char			*content;
-}               t_env;
-
-typedef	struct s_type
-{
-	char	*word;
-	int		type;
-	struct s_type *next;
-}				t_type;
-
-
 typedef struct s_counter
 {
 	int		i;
@@ -49,6 +35,13 @@ typedef struct s_counter
 	int		k;
 	int		a;
 }				t_counter;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*content;
+}               t_env;
+
 
 typedef struct s_cl
 {
@@ -64,6 +57,12 @@ typedef	struct s_cmd
 	int		out;
 }				t_cmd;
 
+typedef	struct s_type
+{
+	char	*word;
+	int		type;
+	struct s_type *next;
+}				t_type;
 
 typedef struct s_data
 {

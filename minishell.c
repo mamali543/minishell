@@ -2,17 +2,19 @@
 
 void	expand_cmdlist(void)
 {
-	t_list *tmp;
+	t_list *tmp; // copy of t_list tokkens
 	t_cmd *cmd;
-	t_type *type_copy;
+	t_type *expanded_types;
+	t_list	*tmp2;
 
 	tmp = g_data->tokkens;
 	while (tmp)
 	{
-		type_copy = expander(tmp->content);
-		print_types(type_copy);
+		expanded_types = expander(tmp->content);
+		print_types(expanded_types);
 		cmd = malloc(sizeof(t_cmd));
-		cmd->cmd = type_copy->word;
+		cmd->cmd = expanded_types->word;
+		cmd->args_list = (t_list *)ft_lstadd_back(&tmp2, ft_lstnew(expanded_types->word));
 		cmd->in = 1;
 		cmd->out = 0;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
@@ -64,8 +66,10 @@ t_type	*parser(char	*line, int dblq, int single)
 			dblq = 0;
 		else if (line[i] == '|' && single == 0 && dblq == 0)
 		{
-			/* i add the  tmp list to the t_list tokkens and i start fill tmp 
-			with the new words after  pipe for the next node of t_list tokkens*/
+			/* i add the current list of type t_type to the first node of t_list tokkens
+			 so the content of it is a list of type t_type,
+			i renew the list of t_type to do the same work 
+			after  pipe for the next node of t_list tokkens*/
 			ft_lstadd_back(&g_data->tokkens, ft_lstnew(tmp));
 			tmp = NULL;
 		}
@@ -73,6 +77,7 @@ t_type	*parser(char	*line, int dblq, int single)
 			ft_lstadd_back_type(&tmp,ft_lstnew_type(">", 4));
 		else
 			adds(line, &i, &tmp);
+		// i break the loup when i reach the last charachter of the line
 		if (i >= ft_strlen(line) - 1)
 			break;
 		i++;
@@ -99,15 +104,10 @@ int		main(int argc, char **argv, char **env)
 	    	return (1);
 		parser(line, 0, 0);
 		expand_cmdlist();
-		// print_cmd();
+		print_cmd();
 		//  print_tokkens();
 		add_history(line);
 		// check_words(tmp);
 	}
 	return (0);
-}
-
-char	**function(t_type		*types)
-{
-	char	
 }

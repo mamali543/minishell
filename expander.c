@@ -167,7 +167,6 @@ t_type	*expander(t_type *tmp)
 			add_tab_to_ll(&new, str, tmp2->type);
 		else
  			ft_lstadd_back_type(&new, ft_lstnew_type2(str, tmp2->type));
-	
         tmp2 = tmp2->next;
     }
     return (new);

@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+/*since i didn't meet the c charachter i add the charchters between '' or "" in a struct type t_cl that add a charchter in a c variable
+ and i add all the structs back to each others in a list of type t_list
+ then i convert the list to a string, finally i add the string to a list of type t_type that
+ contains the string and his type. */
+
 int		add_sq(char *line, int *i, char c, t_type **head)
 {
 	t_cl	*tmp;
@@ -24,6 +29,11 @@ int		add_sq(char *line, int *i, char c, t_type **head)
         ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
     return (1);
 }
+
+/*i add the charchters till i meet '', "", |, or >  in a struct type t_cl that add a charchter in a c variable
+ and i add all the structs back to each others in a list of type t_list
+ then i convert the list to a string, finally i add the string to a list of type t_type that
+ contains the string and his type.*/
 
 int		adds(char *line, int *i, t_type **head)
 {
