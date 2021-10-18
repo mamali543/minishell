@@ -100,10 +100,11 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 	}
 	key = ll_to_string(list_keys);
 	i = ft_strlen(key) - 1;
+	p = (char *)malloc(sizeof(char ) * (i + 1));
 	if (key[i] == '-')
 	{
 		i = 0;
-		while (key[i] != '-')
+		while ((i <ft_strlen(key) - 1) && key[i] != '-')
 		{
 			p[i] = key[i];
 			i++;
