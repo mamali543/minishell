@@ -117,7 +117,7 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 	(*a)--;
 }
 // ila kan khasso yt2expanda kanb6a n2ajouter f les charactres f wahd list
-// hta kanl6a $
+// hta kanl6a $ HHHHH
 char    *expand_word(char *str, t_list **head, int a)
 {
     char    *p;
