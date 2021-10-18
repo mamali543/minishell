@@ -29,6 +29,7 @@ int get_argc(char **s)
         i++;
     return (i);
 }
+
 int	builtin_echo(char **args, char **env)
 {
 	int	i;

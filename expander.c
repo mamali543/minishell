@@ -70,15 +70,26 @@ int    add_bs(t_list **head, int cnt)
 	return (1);
 }
 
+// kanhez env variable f list o kancovrtiha l string
 void		to_skip(char *s, int *a, t_list **head, int f)
 {
 	t_cl	*tmp;
 	t_list	*list_keys;
 	int		i;
 	char	*key;
+	char	*p;
 
-	i = 0;
+	i = *a;
 	list_keys = NULL;
+	if (s[i + 1] == '\'')
+	{
+		tmp = malloc(sizeof(t_cl));
+		tmp->c = s[*a];
+        ft_lstadd_back(&list_keys, ft_lstnew(tmp));
+		key = ll_to_string(list_keys);
+		add_string(head, key);
+		return ;
+	}
 	(*a)++;
 	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ') && (s[(*a)] != '"')) && s[(*a)])
 	{
@@ -88,11 +99,25 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 		(*a)++;
 	}
 	key = ll_to_string(list_keys);
-	char *p = return_env_value(key);
-	add_string(head, p);
+	i = ft_strlen(key) - 1;
+	if (key[i] == '-')
+	{
+		i = 0;
+		while (key[i] != '-')
+		{
+			p[i] = key[i];
+			i++;
+		}
+		p[i] = '\0';
+		key = p;
+		(*a)--;
+	}
+	key = return_env_value(key);
+	add_string(head, key);
 	(*a)--;
 }
-
+// ila kan khasso yt2expanda kanb6a n2ajouter f les charactres f wahd list
+// hta kanl6a $
 char    *expand_word(char *str, t_list **head, int a)
 {
     char    *p;
@@ -108,12 +133,18 @@ char    *expand_word(char *str, t_list **head, int a)
         cnt = 0;
         if (str[i] ==  '$')
         {
+			//ila l6it $ kanskipi kolchi hta kanl6a 
+			// '', "", ' ', $
 			cnt = real_character1(str, i, '$');
 			if (add_bs(head, cnt))
+			{
 				to_skip(str , &i, head, a);
+			}
 		}
         else if (str[i] == ' ' && a == 0)
 		{
+			//ila kan type d lword 0 o l6It espace kanzid espace lewla
+			// o kanskipi les espaces lakhrine
 			ft_lstadd_back(head, ft_lstnew(tmp));
 			while (str[i] == ' ')
 				i++;
@@ -142,6 +173,8 @@ t_type	*ft_lstnew_type2(char *content, int i)
 	return (new);
 }
 
+//loup eela list type kandistingui fiha type dyal l words li eendi f list
+// o kanreturni had list me2expandia
 t_type	*expander(t_type *tmp)
 {
     t_type  *tmp2;
@@ -157,7 +190,8 @@ t_type	*expander(t_type *tmp)
 		head = NULL;
         if (tmp2->type == 2 || tmp2->type == 0)
 		{
-			printf("%s\n", tmp2->word);
+			// printf("%s\n", tmp2->word);
+		   printf("tmp->word = %s\n", tmp2->word);
            expand_word(tmp2->word, &head, tmp2->type);
 		}
 		else
@@ -194,8 +228,10 @@ char	*return_env_value(char *key)
 	env = g_data->env;
 	// printlist(g_data->env);
 	i = 0;
+	printf("%s\n", key);
 	while (env)
 	{
+		// printf("new key = %c\n", key[i - 1]);
 		tmp = (t_env *)env->content;
 		i = ft_strlen(tmp->name);
 		if (i == ft_strlen(key))
@@ -205,7 +241,7 @@ char	*return_env_value(char *key)
 		}
 		env = env->next;
 	}
-	return (strdup(""));
+	return (ft_strdup(""));
 }
 
 void	add_string(t_list **head, char *str)

@@ -6,14 +6,9 @@ void	get_args(t_list **args ,t_type	*types)
 	t_type	*prev;
 	
 	tmp = types;
-	
-
-
 	while (tmp)
 	{
 		prev = tmp->prev;
-
-
 		if (tmp->type != 4)
 		{
 			if (tmp->prev != NULL)
@@ -154,8 +149,8 @@ int		main(int argc, char **argv, char **env)
 	    	return (1);
 		parser(line, 0, 0);
 		expand_cmdlist();
-		// print_cmd();
-		excute_cmd();
+		print_cmd();
+		// excute_cmd();
 		//  print_tokkens();
 		add_history(line);
 		// check_words(tmp);

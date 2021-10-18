@@ -12,7 +12,6 @@ all : $(NAME)
 
 $(NAME) :
 	gcc $(MINIFILES) $(LIB) -o $(NAME) -L/usr/include -lreadline -fsanitize=address -g
-
 fclean:
 	rm -rf minishell
 
