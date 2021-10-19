@@ -91,7 +91,8 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 		return ;
 	}
 	(*a)++;
-	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ') && (s[(*a)] != '"')) && s[(*a)])
+	while (((s[(*a)] != '$') && (s[(*a)] != '\'') && (s[(*a)] != ' ') \
+		&& (s[(*a)] != '"') && (s[(*a)] != '-')) && s[(*a)])
 	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = s[*a];
@@ -99,20 +100,7 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 		(*a)++;
 	}
 	key = ll_to_string(list_keys);
-	i = ft_strlen(key) - 1;
-	p = (char *)malloc(sizeof(char ) * (i + 1));
-	if (key[i] == '-')
-	{
-		i = 0;
-		while ((i <ft_strlen(key) - 1) && key[i] != '-')
-		{
-			p[i] = key[i];
-			i++;
-		}
-		p[i] = '\0';
-		key = p;
-		(*a)--;
-	}
+	printf("kay = %s\n", key);
 	key = return_env_value(key);
 	add_string(head, key);
 	(*a)--;
@@ -192,7 +180,6 @@ t_type	*expander(t_type *tmp)
         if (tmp2->type == 2 || tmp2->type == 0)
 		{
 			// printf("%s\n", tmp2->word);
-		   printf("tmp->word = %s\n", tmp2->word);
            expand_word(tmp2->word, &head, tmp2->type);
 		}
 		else

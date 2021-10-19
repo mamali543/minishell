@@ -39,14 +39,13 @@ void	expand_cmdlist(void)
 		cmd->cmd = expanded_types->word;
 		cmd->args_list = NULL;
 		get_args(&(cmd->args_list), expanded_types);
+		
 		cmd->in = 1;
 		cmd->out = 0;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
 		printf("--------------------\n");
 	}
-
-	
 }
 
 char	*make_string(char *str, char c)
