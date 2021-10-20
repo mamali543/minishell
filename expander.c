@@ -216,7 +216,6 @@ char	*return_env_value(char *key)
 	env = g_data->env;
 	// printlist(g_data->env);
 	i = 0;
-	printf("%s\n", key);
 	while (env)
 	{
 		// printf("new key = %c\n", key[i - 1]);

@@ -1,14 +1,22 @@
 #include "minishell.h"
 
-void	get_args(t_list **args ,t_type	*types)
+t_list	*get_args(t_list **args ,t_type	*types)
 {
 	t_type	*tmp;
+	t_type	*tmp1;
 	t_type	*prev;
+	t_list	*list_files;
 	
 	tmp = types;
+	list_files = NULL;
 	while (tmp)
 	{
 		prev = tmp->prev;
+		if (tmp->type == 4)
+		{
+			tmp1 = tmp;
+			ft_lstadd_back(&list_files, ft_lstnew(tmp1->next->word));
+		}
 		if (tmp->type != 4)
 		{
 			if (tmp->prev != NULL)
@@ -21,6 +29,23 @@ void	get_args(t_list **args ,t_type	*types)
 		}
 		tmp = tmp->next;
 	}
+	return (list_files);
+}
+
+void	get_out(int *i, t_list *list_files)
+{
+	char	*s;
+
+	if (list_files)
+	{
+		s = ft_lstlast(list_files)->content;
+		*i = open(s, O_WRONLY | O_CREAT | O_TRUNC , 0777);
+		while (ft_strcmp(s, list_files->content) != 0)
+		{
+			open(list_files->content, O_WRONLY | O_CREAT | O_TRUNC , 0777);
+			list_files = list_files->next;
+		}
+	}
 }
 
 void	expand_cmdlist(void)
@@ -28,20 +53,20 @@ void	expand_cmdlist(void)
 	t_list *tmp; // copy of t_list tokkens
 	t_cmd *cmd;
 	t_type *expanded_types;
-	t_list	*tmp2;
+	t_list	*list_files;
 
 	tmp = g_data->tokkens;
 	while (tmp)
 	{
 		expanded_types = expander(tmp->content);
-		print_types(expanded_types);
+		// print_types(expanded_types);
 		cmd = malloc(sizeof(t_cmd));
 		cmd->cmd = expanded_types->word;
 		cmd->args_list = NULL;
-		get_args(&(cmd->args_list), expanded_types);
-		
-		cmd->in = 1;
+		list_files = get_args(&(cmd->args_list), expanded_types);
 		cmd->out = 0;
+		get_out(&(cmd->out), list_files);
+		cmd->in = 1;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
 		printf("--------------------\n");
