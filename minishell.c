@@ -48,27 +48,68 @@ void	get_out(int *i, t_list *list_files)
 	}
 }
 
+int	ft_lstsize_type(t_type *type)
+{
+	int		i;
+
+	i = 0;
+	if (type)
+	{
+		while (type)
+		{
+			i++;
+			type = type->next;
+		}
+	}
+	return (i);
+}
+
+t_type	*ft_lstlast_type(t_type *type)
+{
+	if (!type)
+		return (type);
+	while (type->next)
+		type = type->next;
+	return (type);
+}
+
 void	expand_cmdlist(void)
 {
 	t_list *tmp; // copy of t_list tokkens
 	t_cmd *cmd;
 	t_type *expanded_types;
 	t_list	*list_files;
+	int		i;
+	t_type	*tmp2;
 
 	tmp = g_data->tokkens;
+	i = 0;
 	while (tmp)
 	{
+		tmp2 = tmp->content;
 		expanded_types = expander(tmp->content);
 		// print_types(expanded_types);
 		cmd = malloc(sizeof(t_cmd));
-		cmd->cmd = expanded_types->word;
-		cmd->args_list = NULL;
-		list_files = get_args(&(cmd->args_list), expanded_types);
-		cmd->out = 0;
-		get_out(&(cmd->out), list_files);
-		cmd->in = 1;
+		if (i == 0)
+		{
+			printf("type : %d\n", tmp2->type);
+			if (tmp2->type == 4)
+			{
+				if (ft_lstsize_type(tmp2) == 3)
+					cmd->cmd = ft_lstlast_type(tmp2)->word;
+			}
+		}
+		else
+		{
+			cmd->cmd = expanded_types->word;
+			cmd->args_list = NULL;
+			list_files = get_args(&(cmd->args_list), expanded_types);
+			get_out(&(cmd->out), list_files);
+			cmd->in = 1;
+		}
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
+		i++;
 		printf("--------------------\n");
 	}
 }
