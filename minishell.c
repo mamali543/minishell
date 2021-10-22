@@ -39,7 +39,7 @@ void	get_out(int *i, t_list *list_files)
 	if (list_files)
 	{
 		s = ft_lstlast(list_files)->content;
-		printf("here = %s\n", s);
+		printf("file out = %s\n", s);
 		*i = open(s, O_WRONLY | O_CREAT | O_TRUNC , 0777);
 		while (ft_strcmp(s, list_files->content) != 0)
 		{
@@ -96,18 +96,26 @@ void	expand_cmdlist(void)
 			printf("type : %d\n", tmp2->type);
 			if (tmp2->type == 4)
 			{
-				if (ft_lstsize_type(tmp2) == 3)
-				{
-					cmd->cmd = ft_lstlast_type(tmp2)->word;
-					cmd->args_list = NULL;
-					list_files = get_args(&(cmd->args_list), expanded_types);
-					get_out(&(cmd->out), list_files);
-					cmd->in = 1;
-				}
+				//get path of cmd if it exists
+				cmd->cmd = ft_lstlast_type(tmp2)->word;
+				cmd->args_list = NULL;
+				list_files = get_args(&(cmd->args_list), expanded_types);
+				get_out(&(cmd->out), list_files);
+				cmd->in = 1;
+			}
+			else if (tmp2->type == 0)
+			{
+				//get path of cmd if it exists
+				cmd->cmd = expanded_types->word;
+				cmd->args_list = NULL;
+				list_files = get_args(&(cmd->args_list), expanded_types);
+				get_out(&(cmd->out), list_files);
+				cmd->in = 1;	
 			}
 		}
 		else
 		{
+			//get path of cmd if it exists
 			cmd->cmd = expanded_types->word;
 			cmd->args_list = NULL;
 			list_files = get_args(&(cmd->args_list), expanded_types);
