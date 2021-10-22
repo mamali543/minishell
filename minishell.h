@@ -109,6 +109,6 @@ void	print_cmd(void);
 void	print_tokkens(void);
 char	*get_cmd_path(char *str, t_list *env);
 char	*my_ft_strjoin(char const *s1, char const *s2);
-void	add_append(char *line, size_t *i, char c, t_type **head);
-
+void	add_out(char *line, size_t *i, char c, t_type **head);
+void	add_in(char *line, size_t *i, char c, t_type **head);
 #endif

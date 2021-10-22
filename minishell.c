@@ -196,14 +196,11 @@ t_type	*parser(char	*line, int dblq, int single)
 			tmp = NULL;
 		}
 		else if (line[i] == '>' && single == 0 && dblq == 0)
-		{
-			// if (line[i + 1] == '>')
-				add_append(line, &i, '>', &tmp);
-			// ft_lstadd_back_type(&tmp,ft_lstnew_type(">", 4));
-		}
+				add_out(line, &i, '>', &tmp);
+		else if (line[i] == '<' && single == 0 && dblq == 0)
+			add_in(line, &i, '<', &tmp);
 		else
 			adds(line, &i, &tmp);
-		// i break the loup when i reach the last charachter of the line
 		if (i >= ft_strlen(line) - 1)
 			break;
 		i++;

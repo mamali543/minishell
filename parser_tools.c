@@ -1,7 +1,35 @@
 #include "minishell.h"
 
+void	add_in(char *line, size_t *i, char c, t_type **head)
+{
+	t_cl	*tmp;
+	t_list  *list;
+	char	*str;
+	size_t	k;
 
-void	add_append(char *line, size_t *i, char c, t_type **head)
+	list = NULL;
+	printf("hey\n");
+	while (line[(*i)] == c && line[(*i)])
+	{
+		tmp = malloc(sizeof(t_cl));
+		tmp->c = line[(*i)];
+		ft_lstadd_back(&list, ft_lstnew(tmp));
+		(*i)++;
+	}
+	(*i)--;
+	str = ll_to_string(list);
+	k = ft_strlen(str);
+	if (k == 1)
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 6));
+	else if (k == 2)
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 5));
+	else
+	{
+		printf("error\n");
+		exit(1);
+	}
+}
+void	add_out(char *line, size_t *i, char c, t_type **head)
 {
 	t_cl	*tmp;
 	t_list  *list;
@@ -16,12 +44,13 @@ void	add_append(char *line, size_t *i, char c, t_type **head)
 		ft_lstadd_back(&list, ft_lstnew(tmp));
 		(*i)++;
 	}
+	(*i)--;
 	str = ll_to_string(list);
 	k = ft_strlen(str);
 	if (k == 1)
 		ft_lstadd_back_type(head,ft_lstnew_type(str, 4));
 	else if (k == 2)
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 5));
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 3));
 	else
 	{
 		printf("error\n");
@@ -74,7 +103,7 @@ int		adds(char *line, size_t *i, t_type **head)
 
 	l  = 0;
 	list = NULL;
-	while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|' && line[(*i)] != '>') && line[(*i)])
+	while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|' && line[(*i)] != '>' && line[(*i)] != '<') && line[(*i)])
 	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = line[(*i)];
