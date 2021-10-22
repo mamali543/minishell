@@ -80,7 +80,7 @@ t_type	*ft_lstlast_type(t_type *type)
 //		if (check_str(str))
 // }
 
-t_type	*get_node_types(t_type *type)
+t_type	*get_cmd(t_type *type)
 {
 	t_type	*tmp;
 	int		i;
@@ -119,10 +119,11 @@ void	expand_cmdlist(void)
 				print_types(tmp2);
 				str = ft_lstlast_type(tmp2)->word;
 				if (str[i] == '-')
-					cmd->cmd = get_node_types(tmp2)->word;
+					str = get_cmd(tmp2)->word;
 				else
-					cmd->cmd = ft_lstlast_type(tmp2)->word;
-				str = cmd->cmd;
+					str = ft_lstlast_type(tmp2)->word;
+				cmd->cmd = get_cmd_path(str, g_data->env);
+				// str = cmd->cmd;
 				cmd->args_list = NULL;
 				list_files = get_args(&(cmd->args_list), expanded_types);
 				get_out(&(cmd->out), list_files);

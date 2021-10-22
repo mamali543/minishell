@@ -107,5 +107,7 @@ void	free_nodes_types(t_type	**tmp);
 void	add_tab_to_ll(t_type **head, char *str, int type);
 void	print_cmd(void);
 void	print_tokkens(void);
+char	*get_cmd_path(char *str, t_list *env);
+char	*my_ft_strjoin(char const *s1, char const *s2);
 
 #endif

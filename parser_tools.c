@@ -8,26 +8,26 @@
 int		add_sq(char *line, int *i, char c, t_type **head)
 {
 	t_cl	*tmp;
-    t_list  *list;
-    char *str;
-    list = NULL;
-    // help_q(&list, c); 
-    (*i)++;
-    while (line[(*i)] != c && line[(*i)])
-    {
+	t_list  *list;
+	char *str;
+	list = NULL;
+	// help_q(&list, c); 
+	(*i)++;
+	while (line[(*i)] != c && line[(*i)])
+	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = line[(*i)];
 		ft_lstadd_back(&list, ft_lstnew(tmp));
-        (*i)++;
-    }
-    (*i)--;
-    // help_q(&list, c);
-    str = ll_to_string(list);
-    if (c == '\'')
-	    ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
-    else
-        ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
-    return (1);
+		(*i)++;
+	}
+	(*i)--;
+	// help_q(&list, c);
+	str = ll_to_string(list);
+	if (c == '\'')
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
+	else
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
+	return (1);
 }
 
 /*i add the charchters till i meet '', "", |, or >  in a struct type t_cl that add a charchter in a c variable
@@ -38,30 +38,30 @@ int		add_sq(char *line, int *i, char c, t_type **head)
 int		adds(char *line, int *i, t_type **head)
 {
 	t_cl	*tmp;
-    t_list  *list;
-    char    **tab;
-    char *str;
-    int     l;
+	t_list  *list;
+	char    **tab;
+	char *str;
+	int     l;
 
-    l  = 0;
-    list = NULL;
-    while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|' && line[(*i)] != '>') && line[(*i)])
-    {
+	l  = 0;
+	list = NULL;
+	while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|' && line[(*i)] != '>') && line[(*i)])
+	{
 		tmp = malloc(sizeof(t_cl));
 		tmp->c = line[(*i)];
 		ft_lstadd_back(&list, ft_lstnew(tmp));
-        (*i)++;
-    }
-    (*i)--;
-    str = ll_to_string(list);
-    // ft_lstadd_back_type(head,ft_lstnew_type(str, 0));
-    tab = ft_split(str, ' ');
-    while (tab[l])
-    {
-	    ft_lstadd_back_type(head,ft_lstnew_type(tab[l], 0));      
-        l++;
-    }
-    return (1);
+		(*i)++;
+	}
+	(*i)--;
+	str = ll_to_string(list);
+	// ft_lstadd_back_type(head,ft_lstnew_type(str, 0));
+	tab = ft_split(str, ' ');
+	while (tab[l])
+	{
+		ft_lstadd_back_type(head,ft_lstnew_type(tab[l], 0));      
+		l++;
+	}
+	return (1);
 }
 
 // int    check_if_sq(char *str, int *j)
@@ -85,7 +85,85 @@ void    help_q(t_list **head, char c)
 {
 	t_cl	*tmp;
 
-    tmp = malloc(sizeof(t_cl));
-    tmp->c = c;
-    ft_lstadd_back(head, ft_lstnew(tmp));
+	tmp = malloc(sizeof(t_cl));
+	tmp->c = c;
+	ft_lstadd_back(head, ft_lstnew(tmp));
+}
+
+char	*my_ft_strjoin(char const *s1, char const *s2)
+{
+	char	*p;
+	int		i;
+	int		j;
+
+	i = ft_strlen((char *)s1);
+	j = ft_strlen((char *)s2);
+	p = malloc(i + j + 2);
+	if (!(p))
+		return (0);
+	ft_strcpy(p, (char *)s1);
+	ft_strcpy(&p[i], "/");
+	ft_strcpy(&p[i + 1], (char *)s2);
+	return (p);
+}
+
+char	*get_absolute_path(char **path, char *str)
+{
+	int		i;
+	int		fd;
+	char	*cmd;
+
+	i = -1;
+	cmd = NULL;
+	while (path[++i])
+	{
+		cmd = my_ft_strjoin(path[i], str);
+		// printf("cmd=%s\n", cmd);
+		fd = open(cmd, O_RDONLY);
+		if (fd > 0)
+			break ;
+		close(fd);
+		free(cmd);
+	}
+	close(fd);
+	return (cmd);
+}
+
+void	free_dpointer(char	**tokkens)
+{
+	int		i;
+
+	i = 0;
+	while (tokkens[i])
+	{
+		free(tokkens[i]);
+		i++;
+	}
+	free(tokkens);
+}
+
+char	*get_cmd_path(char *str, t_list *env)
+{
+	// printf("str = %s\n", str);
+	//  printlist(env);
+	// exit(1);
+	t_list	*env_tmp;
+	char	**path;
+	char	*cmd;
+	t_env	*env_l;
+	int		i;
+
+	env_tmp = env;
+	i = 0;
+	while (env_tmp)
+	{
+		env_l = env_tmp->content;
+		if (!(ft_strncmp(env_l->name, "PATH", 4)))
+			cmd = env_l->content;
+		env_tmp = env_tmp->next;
+	}
+	path = ft_split(cmd, ':');
+	str = get_absolute_path(path, str);
+	free_dpointer(path);
+	return (str);
 }
