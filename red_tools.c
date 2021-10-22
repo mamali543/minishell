@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   red_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:29:16 by macbookpro        #+#    #+#             */
-/*   Updated: 2021/10/15 06:29:35 by macbookpro       ###   ########.fr       */
+/*   Updated: 2021/10/22 13:40:53 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    create_file(char *s, int type, t_cmd *cmd)
+void    create_file(char *s, t_cmd *cmd)
 {
     int fd;
 

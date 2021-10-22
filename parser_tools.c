@@ -5,7 +5,7 @@
  then i convert the list to a string, finally i add the string to a list of type t_type that
  contains the string and his type. */
 
-int		add_sq(char *line, int *i, char c, t_type **head)
+int		add_sq(char *line, size_t *i, char c, t_type **head)
 {
 	t_cl	*tmp;
 	t_list  *list;
@@ -35,7 +35,7 @@ int		add_sq(char *line, int *i, char c, t_type **head)
  then i convert the list to a string, finally i add the string to a list of type t_type that
  contains the string and his type.*/
 
-int		adds(char *line, int *i, t_type **head)
+int		adds(char *line, size_t *i, t_type **head)
 {
 	t_cl	*tmp;
 	t_list  *list;

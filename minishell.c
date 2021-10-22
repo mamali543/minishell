@@ -115,7 +115,6 @@ void	expand_cmdlist(void)
 			printf("type : %d\n", tmp2->type);
 			if (tmp2->type == 4)
 			{
-				//get path of cmd if it exists
 				print_types(tmp2);
 				str = ft_lstlast_type(tmp2)->word;
 				if (str[i] == '-')
@@ -123,7 +122,6 @@ void	expand_cmdlist(void)
 				else
 					str = ft_lstlast_type(tmp2)->word;
 				cmd->cmd = get_cmd_path(str, g_data->env);
-				// str = cmd->cmd;
 				cmd->args_list = NULL;
 				list_files = get_args(&(cmd->args_list), expanded_types);
 				get_out(&(cmd->out), list_files);
@@ -131,8 +129,7 @@ void	expand_cmdlist(void)
 			}
 			else if (tmp2->type == 0)
 			{
-				//get path of cmd if it exists
-				cmd->cmd = expanded_types->word;
+				cmd->cmd = get_cmd_path(expanded_types->word, g_data->env);
 				cmd->args_list = NULL;
 				list_files = get_args(&(cmd->args_list), expanded_types);
 				get_out(&(cmd->out), list_files);
@@ -142,7 +139,8 @@ void	expand_cmdlist(void)
 		else
 		{
 			//get path of cmd if it exists
-			cmd->cmd = expanded_types->word;
+			cmd->cmd = get_cmd_path(expanded_types->word, g_data->env);
+			// cmd->cmd = expanded_types->word;
 			cmd->args_list = NULL;
 			list_files = get_args(&(cmd->args_list), expanded_types);
 			get_out(&(cmd->out), list_files);
@@ -157,7 +155,7 @@ void	expand_cmdlist(void)
 
 char	*make_string(char *str, char c)
 {
-	int		i;
+	size_t		i;
 	char	*p;
 	i = 0;
 	
@@ -182,7 +180,7 @@ char	*make_string(char *str, char c)
 t_type	*parser(char	*line, int dblq, int single)
 {
 	t_type	*tmp;
-	int i;
+	size_t i;
 
 	tmp = NULL;
 	i = 0;
@@ -247,6 +245,8 @@ int		main(int argc, char **argv, char **env)
 
 	g_data = malloc(sizeof(t_data));
 	init_env_list(env);
+	argc = 0;
+	argv = NULL;
 	while (1)
 	{
 		g_data->tokkens = NULL;

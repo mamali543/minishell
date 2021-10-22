@@ -71,15 +71,15 @@ int    add_bs(t_list **head, int cnt)
 }
 
 // kanhez env variable f list o kancovrtiha l string
-void		to_skip(char *s, int *a, t_list **head, int f)
+void		to_skip(char *s, size_t *a, t_list **head, int f)
 {
 	t_cl	*tmp;
 	t_list	*list_keys;
-	int		i;
+	size_t		i;
 	char	*key;
-	char	*p;
 
 	i = *a;
+	f = 0;
 	list_keys = NULL;
 	if (s[i + 1] == '\'')
 	{
@@ -110,7 +110,7 @@ void		to_skip(char *s, int *a, t_list **head, int f)
 char    *expand_word(char *str, t_list **head, int a)
 {
     char    *p;
-    int     i;
+    size_t	i;
     int     cnt;
 	t_cl	*tmp;
 
@@ -211,7 +211,7 @@ char	*return_env_value(char *key)
 {
 	t_list	*env;
 	t_env	*tmp;
-	int		i;
+	size_t		i;
 
 	env = g_data->env;
 	// printlist(g_data->env);

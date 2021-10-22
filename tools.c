@@ -2,6 +2,7 @@
 
 void    log_error(char *s, int i)
 {
+    i = 0;
     ft_putstr(s);
     // exit(125);
 }
