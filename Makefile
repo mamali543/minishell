@@ -11,8 +11,8 @@ FLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME) :
-	gcc $(MINIFILES) $(FLAGS) $(LIB) -o $(NAME) -L/usr/include -lreadline -fsanitize=address -g
+	@gcc $(MINIFILES) $(FLAGS) $(LIB) -o $(NAME) -L/usr/include -lreadline -fsanitize=address -g
 fclean:
-	rm -rf minishell
+	@rm -rf minishell
 
 re: fclean all

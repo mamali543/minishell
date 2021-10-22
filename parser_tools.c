@@ -78,13 +78,23 @@ int		add_sq(char *line, size_t *i, char c, t_type **head)
 		ft_lstadd_back(&list, ft_lstnew(tmp));
 		(*i)++;
 	}
-	(*i)--;
+    // (*i)++;
+    // while (line [(*i)] != ' ' && line[(*i)])
+    // {
+	// 	tmp = malloc(sizeof(t_cl));
+	// 	tmp->c = line[(*i)];
+	// 	ft_lstadd_back(&list, ft_lstnew(tmp));
+	// 	(*i)++;
+    // }
 	// help_q(&list, c);
 	str = ll_to_string(list);
-	if (c == '\'')
+	printf("str = %s\n", str);
+    // exit(0);
+    if (c == '\'')
 		ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
 	else
 		ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
+	(*i)--;
 	return (1);
 }
 
