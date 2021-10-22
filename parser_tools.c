@@ -1,5 +1,34 @@
 #include "minishell.h"
 
+
+void	add_append(char *line, size_t *i, char c, t_type **head)
+{
+	t_cl	*tmp;
+	t_list  *list;
+	char	*str;
+	size_t	k;
+
+	list = NULL;
+	while (line[(*i)] == c && line[(*i)])
+	{
+		tmp = malloc(sizeof(t_cl));
+		tmp->c = line[(*i)];
+		ft_lstadd_back(&list, ft_lstnew(tmp));
+		(*i)++;
+	}
+	str = ll_to_string(list);
+	k = ft_strlen(str);
+	if (k == 1)
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 4));
+	else if (k == 2)
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 5));
+	else
+	{
+		printf("error\n");
+		exit(1);
+	}
+}
+
 /*since i didn't meet the c charachter i add the charchters between '' or "" in a struct type t_cl that add a charchter in a c variable
  and i add all the structs back to each others in a list of type t_list
  then i convert the list to a string, finally i add the string to a list of type t_type that
@@ -123,7 +152,6 @@ char	*get_absolute_path(char **path, char *str)
 		if (fd > 0)
 			break ;
 		close(fd);
-		free(cmd);
 	}
 	close(fd);
 	return (cmd);
@@ -144,9 +172,6 @@ void	free_dpointer(char	**tokkens)
 
 char	*get_cmd_path(char *str, t_list *env)
 {
-	// printf("str = %s\n", str);
-	//  printlist(env);
-	// exit(1);
 	t_list	*env_tmp;
 	char	**path;
 	char	*cmd;

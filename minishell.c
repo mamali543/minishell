@@ -75,11 +75,6 @@ t_type	*ft_lstlast_type(t_type *type)
 	return (type);
 }
 
-// void	get_cmd(char **cmd, char *str)
-// {
-//		if (check_str(str))
-// }
-
 t_type	*get_cmd(t_type *type)
 {
 	t_type	*tmp;
@@ -94,7 +89,7 @@ t_type	*get_cmd(t_type *type)
 
 void	expand_cmdlist(void)
 {
-	t_list *tmp; // copy of t_list tokkens
+	t_list *tmp;
 	t_cmd *cmd;
 	t_type *expanded_types;
 	t_list	*list_files;
@@ -138,9 +133,7 @@ void	expand_cmdlist(void)
 		}
 		else
 		{
-			//get path of cmd if it exists
 			cmd->cmd = get_cmd_path(expanded_types->word, g_data->env);
-			// cmd->cmd = expanded_types->word;
 			cmd->args_list = NULL;
 			list_files = get_args(&(cmd->args_list), expanded_types);
 			get_out(&(cmd->out), list_files);
@@ -174,7 +167,6 @@ char	*make_string(char *str, char c)
 	p[++i] = '\0';
 	return (p);
 }
-
 //parser: i take the line i fill words depends on their types in a t_type list, whenever i find a pipe i add the t_type list in a t_list tokkens and i free the t_type list.
 
 t_type	*parser(char	*line, int dblq, int single)
@@ -204,7 +196,11 @@ t_type	*parser(char	*line, int dblq, int single)
 			tmp = NULL;
 		}
 		else if (line[i] == '>' && single == 0 && dblq == 0)
-			ft_lstadd_back_type(&tmp,ft_lstnew_type(">", 4));
+		{
+			// if (line[i + 1] == '>')
+				add_append(line, &i, '>', &tmp);
+			// ft_lstadd_back_type(&tmp,ft_lstnew_type(">", 4));
+		}
 		else
 			adds(line, &i, &tmp);
 		// i break the loup when i reach the last charachter of the line
@@ -254,15 +250,14 @@ int		main(int argc, char **argv, char **env)
 		if (!(line = readline("ader$>")))
 	    	return (1);
 		parser(line, 0, 0);
-		expand_cmdlist();
-		print_cmd();
+		// expand_cmdlist();
+		// print_cmd();
 		// excute_cmd();
-		//  print_tokkens();
+		 print_tokkens();
 		add_history(line);
 		// check_words(tmp);
 	}
 	return (0);
 }
 
-// convert linked list to char **
 
