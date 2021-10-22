@@ -87,6 +87,8 @@ t_type	*get_cmd(t_type *type)
 	return (tmp);
 }
 
+// > file echo sdsd > file2
+// echo "$PATH"dfgd
 void	expand_cmdlist(void)
 {
 	t_list *tmp;
@@ -111,16 +113,19 @@ void	expand_cmdlist(void)
 			if (tmp2->type == 4)
 			{
 				print_types(tmp2);
-				str = ft_lstlast_type(tmp2)->word;
-				if (str[i] == '-')
-					str = get_cmd(tmp2)->word;
-				else
+				if (ft_lstsize_type(tmp2) == 3 || ft_lstsize_type(tmp2) == 4)
+				{
 					str = ft_lstlast_type(tmp2)->word;
-				cmd->cmd = get_cmd_path(str, g_data->env);
-				cmd->args_list = NULL;
-				list_files = get_args(&(cmd->args_list), expanded_types);
-				get_out(&(cmd->out), list_files);
-				cmd->in = 1;
+					if (str[i] == '-')
+						str = get_cmd(tmp2)->word;
+					else
+						str = ft_lstlast_type(tmp2)->word;
+					cmd->cmd = get_cmd_path(str, g_data->env);
+					cmd->args_list = NULL;
+					list_files = get_args(&(cmd->args_list), expanded_types);
+					get_out(&(cmd->out), list_files);
+					cmd->in = 1;
+				}
 			}
 			else if (tmp2->type == 0)
 			{
@@ -247,8 +252,8 @@ int		main(int argc, char **argv, char **env)
 		if (!(line = readline("ader$>")))
 	    	return (1);
 		parser(line, 0, 0);
-		// expand_cmdlist();
-		// print_cmd();
+		expand_cmdlist();
+		print_cmd();
 		// excute_cmd();
 		 print_tokkens();
 		add_history(line);
