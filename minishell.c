@@ -32,6 +32,7 @@ t_list	*get_args(t_list **args ,t_type	*types)
 	return (list_files);
 }
 
+
 void	get_out(int *i, t_list *list_files)
 {
 	char	*s;
@@ -74,6 +75,23 @@ t_type	*ft_lstlast_type(t_type *type)
 	return (type);
 }
 
+// void	get_cmd(char **cmd, char *str)
+// {
+//		if (check_str(str))
+// }
+
+t_type	*get_node_types(t_type *type)
+{
+	t_type	*tmp;
+	int		i;
+
+	tmp = type;
+	i = 0;
+	while (tmp->next->word[i] != '-')
+		tmp = tmp->next;
+	return (tmp);
+}
+
 void	expand_cmdlist(void)
 {
 	t_list *tmp; // copy of t_list tokkens
@@ -82,6 +100,7 @@ void	expand_cmdlist(void)
 	t_list	*list_files;
 	int		i;
 	t_type	*tmp2;
+	char	*str;
 
 	tmp = g_data->tokkens;
 	i = 0;
@@ -97,7 +116,13 @@ void	expand_cmdlist(void)
 			if (tmp2->type == 4)
 			{
 				//get path of cmd if it exists
-				cmd->cmd = ft_lstlast_type(tmp2)->word;
+				print_types(tmp2);
+				str = ft_lstlast_type(tmp2)->word;
+				if (str[i] == '-')
+					cmd->cmd = get_node_types(tmp2)->word;
+				else
+					cmd->cmd = ft_lstlast_type(tmp2)->word;
+				str = cmd->cmd;
 				cmd->args_list = NULL;
 				list_files = get_args(&(cmd->args_list), expanded_types);
 				get_out(&(cmd->out), list_files);
