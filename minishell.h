@@ -60,6 +60,7 @@ typedef	struct s_type
 {
 	char	*word;
 	int		type;
+	int		a;
 	struct s_type *next;
 	struct s_type *prev;
 
@@ -88,7 +89,7 @@ void	init_env_list(char **evnp);
 void	printlist(t_list *env);
 t_type	*expander(t_type *tmp);
 int     real_character(char *line, int i, char c);
-t_type	*ft_lstnew_type(char *content, int i);
+t_type	*ft_lstnew_type(char *content, int i, int b);
 void	ft_lstadd_back_type(t_type **alst, t_type *new);
 void    check_words(t_type *tmp);
 char	*make_string(char *str, char c);

@@ -38,13 +38,14 @@ void    check_words(t_type *tmp)
     }
 }
 
-t_type	*ft_lstnew_type(char *content, int i)
+t_type	*ft_lstnew_type(char *content, int i, int b)
 {
 	t_type *new;
 
 	new = (t_type *)malloc(sizeof(t_type) * 1);
     new->word = strdup(content);
     new->type = i;
+    new->a = b;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbookpro <macbookpro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: mamali <mamali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:13:55 by mamali            #+#    #+#             */
-/*   Updated: 2021/10/20 00:42:37 by macbookpro       ###   ########.fr       */
+/*   Updated: 2021/10/23 13:55:22 by mamali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_types(t_type *type)
 
 	while (tmp)
 	{
-		printf("|word is %s| && |type is %d| \n", tmp->word, tmp->type);
+		printf("|word is %s| && |type is %d| && | a is %d \n", tmp->word, tmp->type, tmp->a);
 		tmp = tmp->next;
 	}
 }

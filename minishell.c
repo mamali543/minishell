@@ -87,6 +87,17 @@ t_type	*get_cmd(t_type *type)
 	return (tmp);
 }
 
+t_type	*get_node(t_type *types)
+{
+	int		a;
+	t_type	*tmp;
+
+	a = 2;
+	tmp = types;
+	while (a-- && tmp)
+		tmp = tmp->next;
+	return (tmp);
+}
 // > file echo sdsd > file2
 // echo "$PATH"dfgd
 void	expand_cmdlist(void)
@@ -112,43 +123,42 @@ void	expand_cmdlist(void)
 			printf("type : %d\n", tmp2->type);
 			if (tmp2->type == 4)
 			{
-				print_types(tmp2);
-				if (ft_lstsize_type(tmp2) == 3 || ft_lstsize_type(tmp2) == 4)
+				// print_types(tmp2);
+				if (ft_lstsize_type(tmp2) == 3)
+				{
+					str = get_node(tmp2)->word;
+					cmd->cmd = get_cmd_path(str, g_data->env);
+				}
+				else if (ft_lstsize_type(tmp2) == 4)
 				{
 					str = ft_lstlast_type(tmp2)->word;
-					if (str[i] == '-')
-						str = get_cmd(tmp2)->word;
+					if (str[i] == '-' || !ft_strcmp(get_node(tmp2)->word, "echo"))
+						str = get_node(tmp2)->word;
 					else
 						str = ft_lstlast_type(tmp2)->word;
 					cmd->cmd = get_cmd_path(str, g_data->env);
-					cmd->args_list = NULL;
-					list_files = get_args(&(cmd->args_list), expanded_types);
-					get_out(&(cmd->out), list_files);
-					cmd->in = 1;
+				}
+				else
+				{
+					str = get_node(tmp2)->word;
+					cmd->cmd = get_cmd_path(str, g_data->env);
 				}
 			}
 			else if (tmp2->type == 0)
-			{
 				cmd->cmd = get_cmd_path(expanded_types->word, g_data->env);
-				cmd->args_list = NULL;
-				list_files = get_args(&(cmd->args_list), expanded_types);
-				get_out(&(cmd->out), list_files);
-				cmd->in = 1;	
-			}
 		}
 		else
-		{
 			cmd->cmd = get_cmd_path(expanded_types->word, g_data->env);
-			cmd->args_list = NULL;
-			list_files = get_args(&(cmd->args_list), expanded_types);
-			get_out(&(cmd->out), list_files);
-			cmd->in = 1;
-		}
+		cmd->args_list = NULL;
+		list_files = get_args(&(cmd->args_list), expanded_types);
+		get_out(&(cmd->out), list_files);
+		cmd->in = 1;
 		ft_lstadd_back(&g_data->cmd_list, ft_lstnew(cmd));
 		tmp = tmp->next;
 		i++;
 		printf("--------------------\n");
 	}
+		printf("hey\n");
 }
 
 char	*make_string(char *str, char c)
@@ -249,9 +259,10 @@ int		main(int argc, char **argv, char **env)
 	{
 		g_data->tokkens = NULL;
 		g_data->cmd_list = NULL;
-		if (!(line = readline("ader$>")))
+		if (!(line = readline("ader🤡$>")))
 	    	return (1);
 		parser(line, 0, 0);
+		// print_types(g_data->tokkens->content);
 		expand_cmdlist();
 		print_cmd();
 		// excute_cmd();

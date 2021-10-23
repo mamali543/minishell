@@ -20,9 +20,9 @@ void	add_in(char *line, size_t *i, char c, t_type **head)
 	str = ll_to_string(list);
 	k = ft_strlen(str);
 	if (k == 1)
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 6));
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 6, 0));
 	else if (k == 2)
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 5));
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 5, 0));
 	else
 	{
 		printf("error\n");
@@ -48,9 +48,9 @@ void	add_out(char *line, size_t *i, char c, t_type **head)
 	str = ll_to_string(list);
 	k = ft_strlen(str);
 	if (k == 1)
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 4));
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 4, 0));
 	else if (k == 2)
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 3));
+		ft_lstadd_back_type(head,ft_lstnew_type(str, 3, 0));
 	else
 	{
 		printf("error\n");
@@ -78,13 +78,26 @@ int		add_sq(char *line, size_t *i, char c, t_type **head)
 		ft_lstadd_back(&list, ft_lstnew(tmp));
 		(*i)++;
 	}
-	(*i)--;
 	// help_q(&list, c);
 	str = ll_to_string(list);
-	if (c == '\'')
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 1));
+    if (c == '\'')
+	{
+		(*i)++;
+		if (line[(*i)] == ' ')
+			ft_lstadd_back_type(head,ft_lstnew_type(str, 1, 0));
+		else
+			ft_lstadd_back_type(head,ft_lstnew_type(str, 1, 1));
+	}
 	else
-		ft_lstadd_back_type(head,ft_lstnew_type(str, 2));
+	{
+		(*i)++;
+		if (line[(*i)] == ' ' || !line[(*i)])
+			ft_lstadd_back_type(head,ft_lstnew_type(str, 2, 0));
+		else
+			ft_lstadd_back_type(head,ft_lstnew_type(str, 2, 1));
+	}
+	(*i)--;
+	(*i)--;
 	return (1);
 }
 
@@ -100,8 +113,10 @@ int		adds(char *line, size_t *i, t_type **head)
 	char    **tab;
 	char *str;
 	int     l;
+	int		f;
 
 	l  = 0;
+	f = 0;
 	list = NULL;
 	while ((line[(*i)] != '\'' && line[(*i)] != '"' && line[(*i)] != '|' && line[(*i)] != '>' && line[(*i)] != '<') && line[(*i)])
 	{
@@ -110,15 +125,38 @@ int		adds(char *line, size_t *i, t_type **head)
 		ft_lstadd_back(&list, ft_lstnew(tmp));
 		(*i)++;
 	}
-	(*i)--;
 	str = ll_to_string(list);
 	// ft_lstadd_back_type(head,ft_lstnew_type(str, 0));
 	tab = ft_split(str, ' ');
 	while (tab[l])
-	{
-		ft_lstadd_back_type(head,ft_lstnew_type(tab[l], 0));      
 		l++;
+	printf("%d\n", l);
+	printf("c = %c\n", line[(*i)]);
+	if (l == 1)
+		ft_lstadd_back_type(head,ft_lstnew_type(tab[0], 0, 0));
+	else
+	{
+		while (tab[f] && f < (l - 1))
+		{
+			printf("hey\n");
+			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 0));      
+			f++;
+		}
+		if (line[(*i)] == '\'' || line[(*i)] == '"')
+		{
+			printf("heyy\n");
+			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 1));
+		}
+		else
+			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 0));
 	}
+	// l = 0;
+	// while (tab[l])
+	// {
+	// 	printf("tab[%d] = %s\n", l, tab[l]);
+	// 	l++;
+	// }
+	(*i)--;
 	return (1);
 }
 
