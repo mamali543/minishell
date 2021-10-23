@@ -105,7 +105,7 @@ void	print_cmdlist(t_list *listcmd);
 t_type	*parser(char	*line, int dblq, int single);
 void	print_types(t_type *type);
 void	free_nodes_types(t_type	**tmp);
-void	add_tab_to_ll(t_type **head, char *str, int type);
+void	add_tab_to_ll(t_type **head, char *str, int type, int a);
 void	print_cmd(void);
 void	print_tokkens(void);
 char	*get_cmd_path(char *str, t_list *env);

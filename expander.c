@@ -151,13 +151,14 @@ char    *expand_word(char *str, t_list **head, int a)
     return (p);
 }
 
-t_type	*ft_lstnew_type2(char *content, int i)
+t_type	*ft_lstnew_type2(char *content, int i, int a)
 {
 	t_type *new;
 
 	new = (t_type *)malloc(sizeof(t_type) * 1);
     new->word = content;
     new->type = i;
+	new->a = a;
 	new->next = NULL;
 	return (new);
 }
@@ -178,23 +179,20 @@ t_type	*expander(t_type *tmp)
     {
 		head = NULL;
         if (tmp2->type == 2 || tmp2->type == 0)
-		{
-			// printf("%s\n", tmp2->word);
            expand_word(tmp2->word, &head, tmp2->type);
-		}
 		else
 			add_string(&head, tmp2->word);
 		str = ll_to_string(head);
 		if (tmp2->type == 0)
-			add_tab_to_ll(&new, str, tmp2->type);
+			add_tab_to_ll(&new, str, tmp2->type, tmp2->a);
 		else
- 			ft_lstadd_back_type(&new, ft_lstnew_type2(str, tmp2->type));
+ 			ft_lstadd_back_type(&new, ft_lstnew_type2(str, tmp2->type, tmp2->a));
         tmp2 = tmp2->next;
     }
     return (new);
 }
 
-void	add_tab_to_ll(t_type **head, char *str, int type)
+void	add_tab_to_ll(t_type **head, char *str, int type, int a)
 {
 	char **tab;
 	int	i;
@@ -203,7 +201,7 @@ void	add_tab_to_ll(t_type **head, char *str, int type)
 	tab = ft_split(str, ' ');
 	while (tab[i])
 	{
-		ft_lstadd_back_type(head, ft_lstnew_type2(tab[i], type));
+		ft_lstadd_back_type(head, ft_lstnew_type2(tab[i], type, a));
 		i++;
 	}
 }

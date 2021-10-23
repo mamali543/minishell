@@ -8,7 +8,6 @@ void	add_in(char *line, size_t *i, char c, t_type **head)
 	size_t	k;
 
 	list = NULL;
-	printf("hey\n");
 	while (line[(*i)] == c && line[(*i)])
 	{
 		tmp = malloc(sizeof(t_cl));
@@ -83,7 +82,7 @@ int		add_sq(char *line, size_t *i, char c, t_type **head)
     if (c == '\'')
 	{
 		(*i)++;
-		if (line[(*i)] == ' ')
+		if (line[(*i)] == ' ' || !line[(*i)])
 			ft_lstadd_back_type(head,ft_lstnew_type(str, 1, 0));
 		else
 			ft_lstadd_back_type(head,ft_lstnew_type(str, 1, 1));
@@ -130,32 +129,22 @@ int		adds(char *line, size_t *i, t_type **head)
 	tab = ft_split(str, ' ');
 	while (tab[l])
 		l++;
-	printf("%d\n", l);
-	printf("c = %c\n", line[(*i)]);
 	if (l == 1)
 		ft_lstadd_back_type(head,ft_lstnew_type(tab[0], 0, 0));
 	else
 	{
 		while (tab[f] && f < (l - 1))
 		{
-			printf("hey\n");
 			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 0));      
 			f++;
 		}
 		if (line[(*i)] == '\'' || line[(*i)] == '"')
 		{
-			printf("heyy\n");
 			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 1));
 		}
 		else
 			ft_lstadd_back_type(head,ft_lstnew_type(tab[f], 0, 0));
 	}
-	// l = 0;
-	// while (tab[l])
-	// {
-	// 	printf("tab[%d] = %s\n", l, tab[l]);
-	// 	l++;
-	// }
 	(*i)--;
 	return (1);
 }
@@ -214,7 +203,6 @@ char	*get_absolute_path(char **path, char *str)
 	while (path[++i])
 	{
 		cmd = my_ft_strjoin(path[i], str);
-		// printf("cmd=%s\n", cmd);
 		fd = open(cmd, O_RDONLY);
 		if (fd > 0)
 			break ;

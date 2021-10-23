@@ -9,6 +9,7 @@ t_list	*get_args(t_list **args ,t_type	*types)
 	
 	tmp = types;
 	list_files = NULL;
+				// print_types(tmp);
 	while (tmp)
 	{
 		prev = tmp->prev;
@@ -22,7 +23,19 @@ t_list	*get_args(t_list **args ,t_type	*types)
 			if (tmp->prev != NULL)
 			{
 				if (tmp->prev->type != 4)
-					ft_lstadd_back(args, ft_lstnew(tmp->word));
+				{
+					char	*str;
+					if (tmp->a == 1)
+					{
+						str = ft_strjoin(tmp->word, tmp->next->word);
+						if (tmp->next->a == 1)
+							str = ft_strjoin(str, tmp->next->next->word);
+						ft_lstadd_back(args, ft_lstnew(str));
+						tmp = tmp->next->next;
+					}
+					else
+						ft_lstadd_back(args, ft_lstnew(tmp->word));
+				}
 			}
 			else
 				ft_lstadd_back(args, ft_lstnew(tmp->word));
@@ -158,7 +171,6 @@ void	expand_cmdlist(void)
 		i++;
 		printf("--------------------\n");
 	}
-		printf("hey\n");
 }
 
 char	*make_string(char *str, char c)
