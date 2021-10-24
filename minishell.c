@@ -25,13 +25,20 @@ t_list	*get_args(t_list **args ,t_type	*types)
 				if (tmp->prev->type != 4)
 				{
 					char	*str;
+					int		i;
+					i = 0;
 					if (tmp->a == 1)
 					{
-						str = ft_strjoin(tmp->word, tmp->next->word);
-						if (tmp->next->a == 1)
-							str = ft_strjoin(str, tmp->next->next->word);
+						while (tmp->a == 1)
+						{
+							if (i == 0)
+								str = ft_strjoin(tmp->word, tmp->next->word);
+							else
+								str = ft_strjoin(str, tmp->next->word);
+							i++;
+							tmp = tmp->next;
+						}
 						ft_lstadd_back(args, ft_lstnew(str));
-						tmp = tmp->next->next;
 					}
 					else
 						ft_lstadd_back(args, ft_lstnew(tmp->word));

@@ -130,7 +130,12 @@ int		adds(char *line, size_t *i, t_type **head)
 	while (tab[l])
 		l++;
 	if (l == 1)
-		ft_lstadd_back_type(head,ft_lstnew_type(tab[0], 0, 0));
+	{
+		if (line[(*i)] == '\'' || line[(*i)] == '"')
+			ft_lstadd_back_type(head,ft_lstnew_type(tab[0], 0, 1));
+		else
+			ft_lstadd_back_type(head,ft_lstnew_type(tab[0], 0, 0));
+	}
 	else
 	{
 		while (tab[f] && f < (l - 1))
