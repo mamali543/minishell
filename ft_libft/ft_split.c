@@ -58,10 +58,8 @@ static char	**help(const char *str)
 {
 	char	**tab;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 1;
 	tab = (char **)malloc(sizeof(char *) * 2);
 	tab[0] = (char *)malloc(1 * ft_strlen(str) + 1);
 	while (str[i])

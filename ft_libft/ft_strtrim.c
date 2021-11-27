@@ -31,9 +31,7 @@ static	int	test(char a, const char *s)
 static	int	fstart(const char *s1, const char *s2)
 {
 	int	i;
-	int	j;
 
-	j = 0;
 	i = 0;
 	while (s1[i] != '\0')
 	{
